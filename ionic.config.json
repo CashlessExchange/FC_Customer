@@ -1,0 +1,14 @@
+{
+  "name": "freedomchoice",
+  "app_id": "aa147a51",
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://freedom.local:88/"
+    }
+  ],
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}

@@ -1,0 +1,52 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>cards</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list unset>
+    <ion-item>
+      <ion-thumbnail item-start>
+        <img src="assets/img/americanexpress.png" style="height: 30%;">
+      </ion-thumbnail>
+
+      <button ion-item (click)="cardSelected(1)">American Express
+      </button>
+    </ion-item>
+
+    <ion-item>
+      <ion-thumbnail item-start>
+        <img src="assets/img/discover.png" style="height: 30%;">
+      </ion-thumbnail>
+
+      <button ion-item (click)="cardSelected(2)">Discover
+      </button>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-thumbnail item-start>
+        <img src="assets/img/mastercard.png" style="height: 30%;">
+      </ion-thumbnail>
+
+      <button ion-item (click)="cardSelected(3)">Mastercard
+      </button>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-thumbnail item-start>
+        <img src="assets/img/visa.png" style="height: 30%;">
+      </ion-thumbnail>
+
+      <button ion-item (click)="cardSelected(4)">Visa
+      </button>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>

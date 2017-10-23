@@ -1,0 +1,67 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Add Credit Card</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form (ngSubmit)="addCard(f.value)" #f="ngForm">
+    <h1>
+      {{cardname}}
+    </h1>
+    <img [src]="iconsrc" style="width:60%; display: block; margin: 0 auto;">
+    <ion-item>
+      <ion-label>
+        cardowner
+      </ion-label>
+      <ion-input type="text" placeholder="" name="cardowner" ngModel required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        cardnumber
+      </ion-label>
+      <ion-input type="number" placeholder="" name="cardnumber" ngModel required></ion-input>
+    </ion-item>
+    <div class="spacer" style="width:300px;height:33px;"></div>
+    <div class="show-list-numbers-and-dots">
+      <p>
+        Valide from:
+      </p>
+    </div>
+    <ion-item>
+      <ion-label>
+        month
+      </ion-label>
+      <ion-select name="month" ngModel required>
+        <ion-option *ngFor="let month of months">
+          {{month}}
+        </ion-option>
+
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        year
+      </ion-label>
+      <ion-select name="year" ngModel required>
+        <ion-option *ngFor="let year of years">
+          {{year}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+    <div class="spacer" style="width:300px;height:33px;"></div>
+    <ion-item>
+      <ion-label>
+        check digit
+      </ion-label>
+      <ion-input type="password number" placeholder="" name="checkdigit" ngModel required></ion-input>
+    </ion-item>
+    <button ion-button color="positive" block type="submit" [disabled]="!f.valid">
+      Add Card
+    </button>
+  </form>
+
+</ion-content>

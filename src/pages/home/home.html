@@ -1,0 +1,85 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Main Page</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <div>
+    <img src="assets/img/screenplay.png" style="display:block;width:100%;height:auto;margin-left:auto;margin-right:auto;" />
+  </div>
+
+  <ion-item color="none">
+
+    <ion-avatar item-left>
+      <img src="assets/img/Hl6uXcJ3RiCg0vQy2nP5_person-flat.png" />
+    </ion-avatar>
+    <h2>
+      {{customer?.data.username}}
+    </h2>
+    <h3>
+      Your Customer ID: {{customerid}}
+    </h3>
+    <h3>
+      Your Email: {{customer?.data.email}}
+    </h3>
+  </ion-item>
+  <ion-item color="none">
+    Last Certificate:
+  </ion-item>
+  <ion-list>
+    <span *ngIf="certs === undefined"> There are no Certificates available</span>
+
+    <ion-spinner *ngIf="certs != undefined && certs.length == 0"> </ion-spinner>
+
+    <ion-card color="none" *ngFor="let option of certs">
+      <ion-item>
+        <ion-thumbnail item-left>
+          <img [src]="option.merchantlogo" style="height: 20%;">
+        </ion-thumbnail>
+      </ion-item>
+      <h2>
+        Merchant: {{option.merchantname}}
+      </h2>
+      <p>Value: {{option.value}}$</p>
+    </ion-card>
+  </ion-list>
+
+  <ion-item color="none" id="home-list-item20">
+    Latest Transactions:
+  </ion-item>
+  <ion-list>
+    <span *ngIf="transactions === undefined"> There are no transactions available</span>
+
+    <ion-spinner *ngIf="transactions != undefined && transactions.length == 0"> </ion-spinner>
+    <ion-card *ngFor="let option of transactions">
+
+      <ion-item>
+        <div class="show-list-numbers-and-dots">
+          <p style="margin-top:0px;color:#000000;">
+            Merchant Name = {{option.device_id?.name}}
+          </p>
+          <p style="margin-top:0px;color:#000000;">
+            Merchant Address = {{option.device_id?.address}}
+          </p>
+          <p style="margin-top:0px;color:#000000;">
+            Referencenumber = {{option.ref}}
+          </p>
+        </div>
+      </ion-item>
+      <ion-item color="balanced">
+        Value: {{addPoint(option.value)}}$
+      </ion-item>
+    </ion-card>
+  </ion-list>
+
+</ion-content>

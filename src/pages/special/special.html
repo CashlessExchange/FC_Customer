@@ -1,0 +1,32 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Certificates</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+
+  <ion-list>
+    <span *ngIf="certs === undefined"> There are no Certificates available</span>
+
+    <ion-item color="none" *ngFor="let option of certs" (click)="showCert(option.token)" ion-item>
+      <ion-thumbnail item-left>
+        <img [src]="option.merchantlogo" style="height: 30%;">
+      </ion-thumbnail>
+      <h2>
+        Merchant: {{option.merchantname}}
+      </h2>
+      <span>Certificate: {{option.token}}</span>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

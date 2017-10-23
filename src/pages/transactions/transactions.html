@@ -1,0 +1,39 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>transactions</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <span *ngIf="transactions === undefined"> There are no transactions available</span>
+
+    <ion-card *ngFor="let option of transactions">
+
+      <ion-item>
+        <div class="show-list-numbers-and-dots">
+          <p style="margin-top:0px;color:#000000;">
+            Merchant Name = {{option.device_id?.name}}
+          </p>
+          <p style="margin-top:0px;color:#000000;">
+            Merchant Address = {{option.device_id?.address}}
+          </p>
+          <p style="margin-top:0px;color:#000000;">
+            Referencenumber = {{option.ref}}
+          </p>
+        </div>
+      </ion-item>
+      <ion-item color="balanced">
+        Value: {{addPoint(option.value)}}$
+      </ion-item>
+    </ion-card>
+  </ion-list>
+</ion-content>

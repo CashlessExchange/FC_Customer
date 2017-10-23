@@ -1,0 +1,45 @@
+<ion-menu [content]="content">
+  <ion-header>
+
+    <ion-navbar>
+      <ion-title>menu</ion-title>
+    </ion-navbar>
+
+  </ion-header>
+
+
+  <ion-content>
+    <ion-list no-lines>
+      <button ion-item menuClose *ngFor="let p of pages" (click)="openPage(p)">
+        <ion-icon item-start [name]="p.icon" [color]="isActive(p)" style="font-size:23px !important;">
+          {{p.title}}
+        </ion-icon>
+      </button>
+
+    </ion-list>
+    <ion-list>
+      <button ion-item menuClose (click)="scanBarcode()">
+        <ion-icon item-start name="qr-scanner" color="red" style="font-size:23px !important;">
+          Scan Code
+        </ion-icon>
+      </button>
+      <button ion-item menuClose (click)="enterBarcode()">
+        <ion-icon item-start name="document" color="red" style="font-size:23px !important;">
+          Enter Code
+        </ion-icon>
+      </button>
+    </ion-list>
+
+    <div class="spacer" style="height:40px;" ></div>
+    
+    <ion-list>
+      <button ion-item menuClose (click)="doLogout()">
+        <ion-icon item-start name="exit" color="red" style="font-size:23px !important;">
+          Logout
+        </ion-icon>
+      </button>
+    </ion-list>
+
+  </ion-content>
+</ion-menu>
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

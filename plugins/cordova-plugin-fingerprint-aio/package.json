@@ -1,0 +1,110 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "cordova-plugin-fingerprint-aio",
+        "scope": null,
+        "escapedName": "cordova-plugin-fingerprint-aio",
+        "name": null,
+        "rawSpec": "cordova-plugin-fingerprint-aio",
+        "spec": "/Users/mariaschanz/Desktop/ionic-test/freedomchoice/node_modules/cordova-plugin-fingerprint-aio",
+        "type": "directory"
+      },
+      "/Users/mariaschanz/Desktop/ionic-test/freedomchoice/node_modules"
+    ]
+  ],
+  "_from": "node_modules/cordova-plugin-fingerprint-aio",
+  "_id": "cordova-plugin-fingerprint-aio@1.3.2",
+  "_inCache": true,
+  "_location": "/cordova-plugin-fingerprint-aio",
+  "_nodeVersion": "6.11.4",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/cordova-plugin-fingerprint-aio-1.3.2.tgz_1507999346739_0.6226168046705425"
+  },
+  "_npmUser": {
+    "name": "niklasmerz",
+    "email": "NiklasMerz@gmx.net"
+  },
+  "_npmVersion": "3.10.10",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "cordova-plugin-fingerprint-aio",
+    "scope": null,
+    "escapedName": "cordova-plugin-fingerprint-aio",
+    "name": null,
+    "rawSpec": "cordova-plugin-fingerprint-aio",
+    "spec": "/Users/mariaschanz/Desktop/ionic-test/freedomchoice/node_modules/cordova-plugin-fingerprint-aio",
+    "type": "directory"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "file:node_modules/cordova-plugin-fingerprint-aio",
+  "_shasum": "b72a6e98b7743c16c880f1d984769d19160cae7f",
+  "_shrinkwrap": null,
+  "_spec": "cordova-plugin-fingerprint-aio",
+  "_where": "/Users/mariaschanz/Desktop/ionic-test/freedomchoice/node_modules",
+  "author": {
+    "name": "Niklas Merz"
+  },
+  "bugs": {
+    "url": "https://github.com/niklasmerz/cordova-plugin-fingerprint-aio/issues"
+  },
+  "cordova": {
+    "id": "cordova-plugin-fingerprint-aio",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "dependencies": {
+    "cordova-plugin-add-swift-support": "^1.7.0"
+  },
+  "description": "Cordova plugin to use fingerprint authentication on Android and iOS",
+  "devDependencies": {
+    "cordova-paramedic": "^0.5.0",
+    "cordova-plugin-xml": "^0.1.2",
+    "eslint": "^4.8.0",
+    "jasmine": "*"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "37a3f944633ef81091640577d07193d01586167b",
+    "tarball": "https://registry.npmjs.org/cordova-plugin-fingerprint-aio/-/cordova-plugin-fingerprint-aio-1.3.2.tgz"
+  },
+  "gitHead": "381f37e26bd4479444842e3342e307b5e15cc3e5",
+  "homepage": "https://github.com/niklasmerz/cordova-plugin-fingerprint-aio#readme",
+  "keywords": [
+    "cordova",
+    "plugin",
+    "android",
+    "fingerprint",
+    "authentication",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "ios"
+  ],
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "niklasmerz",
+      "email": "NiklasMerz@gmx.net"
+    }
+  ],
+  "name": "cordova-plugin-fingerprint-aio",
+  "optionalDependencies": {},
+  "readme": "# Cordova Plugin Fingerprint All-In-One\n## **Android** and **iOS**\n\n[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/cordova-plugin-fingerprint-aio)\n[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/NiklasMerz/cordova-plugin-fingerprint-aio/master/LICENSE)\n[![Build Status](https://travis-ci.org/NiklasMerz/cordova-plugin-fingerprint-aio.svg?branch=master)](https://travis-ci.org/NiklasMerz/cordova-plugin-fingerprint-aio)\n[![Code Climate](https://codeclimate.com/github/NiklasMerz/cordova-plugin-fingerprint-aio/badges/gpa.svg)](https://codeclimate.com/github/NiklasMerz/cordova-plugin-fingerprint-aio)\n[![Issue Count](https://codeclimate.com/github/NiklasMerz/cordova-plugin-fingerprint-aio/badges/issue_count.svg)](https://codeclimate.com/github/NiklasMerz/cordova-plugin-fingerprint-aio)\n[![Dependency Status](https://gemnasium.com/badges/github.com/NiklasMerz/cordova-plugin-fingerprint-aio.svg)](https://gemnasium.com/github.com/NiklasMerz/cordova-plugin-fingerprint-aio)\n\n[![NPM](https://nodei.co/npm/cordova-plugin-fingerprint-aio.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/cordova-plugin-fingerprint-aio/)\n\n\n**This plugin provides a single and simple interface for accessing fingerprint APIs on both Android 6+ and iOS.**\n\n## Features\n\n* Check if fingerprint scanner is available\n* Fingerprint authentication\n* Ionic Native support\n* ngCordova support\n* Fallback options\n\n### Platforms\n\n* Android\n* iOS - **XCode 8 or higher** required, plugin uses Swift 3\n  * _If you are using XCode 9, please set `<preference name=\"UseSwiftLanguageVersion\" value=\"3.2\" />` in your config.xml_\n\n\n## How to use\n\n---\n\n**[Tutorial about using this plugin with Ionic](https://www.youtube.com/watch?v=tQDChMJ6er8)** thanks to Paul Halliday\n\n[Examples](https://github.com/NiklasMerz/fingerprint-aio-demo)\n\n[ngCordova Example](https://github.com/NiklasMerz/fingerprint-aio-demo/tree/ng-cordova)\n\n[Ionic Native Example](https://github.com/NiklasMerz/fingerprint-aio-demo/tree/ionic-native)\n\n---\n\n### Install\n\nInstall from NPM\n\n```\ncordova plugin add cordova-plugin-fingerprint-aio --save\n```\n\nor use this Github repo\n\n### Check if fingerprint authentication is available\n```javascript\nFingerprint.isAvailable(isAvailableSuccess, isAvailableError);\n\n    function isAvailableSuccess(result) {\n      alert(\"Fingerprint available\");\n    }\n\n    function isAvailableError(message) {\n      alert(message);\n    }\n```\n\n### Show authentication dialogue\n```javascript\nFingerprint.show({\n      clientId: \"Fingerprint-Demo\",\n      clientSecret: \"password\" //Only necessary for Android\n    }, successCallback, errorCallback);\n\n    function successCallback(){\n      alert(\"Authentication successfull\");\n    }\n\n    function errorCallback(err){\n      alert(\"Authentication invalid \" + err);\n    }\n```\n**Optional parameters**\n\n* __disableBackup__: If true remove backup option on authentication dialogue for Android. Default false.\n* __localizedFallbackTitle__ (iOS only): Title of fallback button.\n* __localizedReason__ (iOS only): Description in authentication dialogue.\n\n## Thanks to the authors of the original fingerprint plugins:\n\n[Android](https://github.com/mjwheatley/cordova-plugin-android-fingerprint-auth)\n\n[iOS](https://github.com/EddyVerbruggen/cordova-plugin-touch-id)\n\n## License\n\n* Project and iOS source -> MIT\n* Android source -> MIT and Apache 2.0\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niklasmerz/cordova-plugin-fingerprint-aio.git"
+  },
+  "scripts": {
+    "plugin-version": "cordova-plugin-xml setVersion",
+    "test": "./node_modules/cordova-paramedic/main.js --plugin . --device --platform"
+  },
+  "version": "1.3.2"
+}

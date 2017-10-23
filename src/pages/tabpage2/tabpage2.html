@@ -1,0 +1,38 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Sell with NFC</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item id="nfc-1">
+    <ion-label>
+      Itemname
+    </ion-label>
+    <ion-input type="text" placeholder="" [(ngModel)]="transdata.item"></ion-input>
+  </ion-item>
+  <ion-item id="nfc-2">
+    <ion-label>
+      Name of Seller
+    </ion-label>
+    <ion-input type="text" placeholder="" [(ngModel)]="transdata.name"></ion-input>
+  </ion-item>
+  <ion-item id="nfc-3">
+    <ion-label>
+      Price
+    </ion-label>
+    <ion-input type="text" placeholder="" [(ngModel)]="transdata.price"></ion-input>
+  </ion-item>
+
+  <button ion-button color="primary" block (click)="payNFC()">
+    Pay
+  </button>
+</ion-content>

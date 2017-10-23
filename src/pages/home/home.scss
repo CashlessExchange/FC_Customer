@@ -1,0 +1,25 @@
+page-home {
+
+    .toolbar-background {
+        background-color:#004858;
+    }
+    .toolbar-title{
+        color: white;
+    }
+    .bar-buttons{
+        color: white;
+    }
+
+    .ion-spinner * {
+        text-align: center;
+        
+        width: 28px;
+        height: 28px;
+        stroke: #444;
+        fill: #222;
+      }
+      .ion-spinner {
+        left: 50%;
+        margin-left: -4em;
+      }
+}

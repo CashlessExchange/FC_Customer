@@ -1,0 +1,37 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons end>
+        <button ion-button icon-only color="royal" (click)="addCard()">
+            <ion-icon name="add"></ion-icon>
+          </button>
+    </ion-buttons>
+      <ion-buttons start>
+          <button ion-button menuToggle>
+              <ion-icon name="menu"></ion-icon>        
+          </button>
+        </ion-buttons>
+    <ion-title>paymethods</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <H2>Your Creditcards</H2>
+    <p>Your Data will be save with us!</p>
+  <div class="spacer" style="width:300px;height:15px;" id="paymethods-spacer6"></div>
+<ion-list>
+
+  <ion-item *ngFor="let option of cardsonpage" (click)="editCard(option)" ion-item>
+    <ion-thumbnail item-start>
+      <img [src]="option.icon" style="height: 30%;">
+    </ion-thumbnail>
+    <ion-label>{{option.cardowner}}, {{filter(option.cardnumber)}}</ion-label>
+    
+  </ion-item>
+  
+</ion-list>
+
+</ion-content>

@@ -1,0 +1,45 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>certificate</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+
+    <ion-item>
+      <ion-avatar item-start>
+        <img [src]="cert.merchantlogo">
+      </ion-avatar>
+      <h2>Merchant: {{cert.merchantname}}</h2>
+      <p>{{cert.merchantmail}}</p>
+    </ion-item>
+
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          Date: {{date}}
+        </ion-item>
+        <ion-item>
+          Your ID: {{customerid}}
+        </ion-item>
+        <ion-item>
+          Merchant ID: {{merchantid}}
+        </ion-item>
+        <ion-item>
+          Price: {{price}}$
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+
+
+  </ion-card>
+  <div id="map" #map></div>
+
+
+
+
+</ion-content>

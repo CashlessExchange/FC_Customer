@@ -1,0 +1,98 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Registration</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding style="background:url(assets/img/Gk12DbJ0TWiNU1PQbjMe_pexels-photo-220444.jpeg) no-repeat center;background-size:cover;"
+  id="page6">
+  <div class="spacer" style="height:20px;"></div>
+
+  <div style="margin-left:-10px;width:calc(100% + 20px);">
+    <img src="assets/img/screenplay.png" style="display:block;width:100%;height:auto;margin-left:auto;margin-right:auto;" />
+  </div>
+  <form (ngSubmit)="signUp(f.value)" #f="ngForm">
+    <ion-item>
+      <ion-label>
+        Email
+      </ion-label>
+      <ion-input type="text" placeholder="" name="email" clearInput ngModel required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        Username
+      </ion-label>
+      <ion-input type="text" placeholder="" name="username" ngModel required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        Password
+      </ion-label>
+      <ion-input type="password" placeholder="" name="password" ngModel required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        Phonenumber
+      </ion-label>
+      <ion-input type="numbers" placeholder="" name="phone" ngModel required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        City
+      </ion-label>
+      <ion-input type="text" placeholder="" name="city" ngModel required></ion-input>
+    </ion-item>
+    <div class="spacer" style="width:300px;height:33px;"></div>
+
+    <ion-item>
+      <ion-label>
+        cardtype
+      </ion-label>
+      <ion-select name="cardname" ngModel required>
+        <ion-option *ngFor="let type of cardtype">
+          {{type}}
+        </ion-option>
+
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        cardnumber
+      </ion-label>
+      <ion-input type="number" placeholder="" name="cardnumber" ngModel required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        month
+      </ion-label>
+      <ion-select name="month" ngModel required>
+        <ion-option *ngFor="let month of months">
+          {{month}}
+        </ion-option>
+
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        year
+      </ion-label>
+      <ion-select name="year" ngModel required>
+        <ion-option *ngFor="let year of years">
+          {{year}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        check digit
+      </ion-label>
+      <ion-input type="password number" placeholder="" name="checkdigit" ngModel required></ion-input>
+    </ion-item>
+    <button ion-button color="primary" block type="submit" [disabled]="!f.valid">
+      Sign up
+    </button>
+  </form>
+
+</ion-content>

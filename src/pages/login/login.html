@@ -1,0 +1,33 @@
+<ion-content padding style="background:url(assets/img/Gk12DbJ0TWiNU1PQbjMe_pexels-photo-220444.jpeg) no-repeat center;background-size:cover;"
+  id="page5">
+  <div class="spacer" style="height:20px;"></div>
+
+  <form (ngSubmit)="doLogin(f.value)" #f="ngForm">
+    <div style="margin-left:-10px;width:calc(100% + 20px);">
+      <img src="assets/img/screenplay.png" style="display:block;width:100%;height:auto;margin-left:auto;margin-right:auto;" />
+    </div>
+    <ion-list>
+      <ion-item class="email">
+        <ion-label>
+          Email
+        </ion-label>
+        <ion-input type="email" name="mail" autocomplete ngModel="{{creds.mail}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          Password
+        </ion-label>
+        <ion-input type="password" placeholder="" name="password" ngModel></ion-input>
+      </ion-item>
+    </ion-list>
+    <div class="spacer" style="height:40px;"></div>
+    <button ion-button color="assertive" block>
+      Log in
+    </button>
+
+  </form>
+
+  <button ion-button clear color="positive" block (click)="doSignup()">
+    Or Sign Up
+  </button>
+</ion-content>
