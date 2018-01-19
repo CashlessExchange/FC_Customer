@@ -1,48 +1,68 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
-import { AlertController } from 'ionic-angular';
-import { Storage } from '@ionic/Storage';
+import { TranslateService } from '@ngx-translate/core';
+import { IonicPage, NavController, ToastController, Platform } from 'ionic-angular';
+import { NativeStorage } from '@ionic-native/native-storage';
+import { User } from '../../providers/providers';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
-
-import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
-
+import { MenuPage } from '../menu/menu';
 
 @IonicPage()
 @Component({
   selector: 'page-login',
-  templateUrl: 'login.html',
+  templateUrl: 'login.html'
 })
 export class LoginPage {
+  // The account fields for the login form.
+  // If you're using the username field with or without email, make
+  // sure to add it to the type
+  account: { email: string, password: string } = {
+    email: '',
+    password: ''
+  };
 
-  private creds: { mail: string, password: string } = { mail: "", password: "" };
+  // Our translated text strings
+  private loginErrorString: string;
   private customerid: string;
 
-  constructor(
+  constructor(public navCtrl: NavController,
+    private fingerprint: FingerprintAIO,
+    private nativeStorage: NativeStorage,
+    public user: User,
     public platform: Platform,
-    private fingerprint: FingerprintAIO, 
-    private storage: Storage, 
-    private alertCtrl: AlertController, 
-    public navCtrl: NavController, 
-    public navParams: NavParams, 
-    private authSrvce: AuthServiceProvider) {
-    this.setData();
+    public toastCtrl: ToastController,
+    public translateService: TranslateService) {
+
+    this.translateService.get('LOGIN_ERROR').subscribe((value) => {
+      this.loginErrorString = value;
+    })
+    this.checkData();
   }
 
   async setData() {
-    await this.storage.get('loginname').then((data) => {
-      if (data != null && data != undefined) {
-        this.creds.mail = data;
-      }
-    });
-    await this.storage.get('user-id').then((data) => {
-      if (data != null && data != undefined) {
-        this.customerid = data;
-        if (!this.platform.is('core')) {
+
+    if (!this.platform.is('core')) {
+      await this.nativeStorage.setItem('loginname', this.account.email);
+      await this.nativeStorage.setItem('user-id', this.customerid);
+    }
+
+  }
+
+  async checkData() {
+    if (!this.platform.is('core')) {
+      await this.nativeStorage.getItem('loginname').then((data) => {
+        if (data != null && data != undefined) {
+          this.account.email = data;
+        }
+      });
+      await this.nativeStorage.getItem('user-id').then((data) => {
+        if (data != null && data != undefined) {
+          this.customerid = data;
+
           this.fingerprintLogin();
         }
-      }
-    });
 
+      });
+    }
   }
 
   async fingerprintLogin() {
@@ -53,39 +73,54 @@ export class LoginPage {
         clientSecret: "password",
         localizedReason: "please authenticate"
       }).then(result => {
-        this.navCtrl.setRoot('MenuPage');
+        this.navCtrl.setRoot(MenuPage);
       }).catch((err) => {
         console.log(err);
       });
     });
   }
 
-  async doLogin(creds: { mail: string, password: string }) {
+  // Attempt to login in through our User service
+  doLogin() {
 
-    let type = "login.php?email=" + creds.mail + "&password=" + creds.password;
-    let auth: any = await this.authSrvce.serviceFreedom(creds, type);
-    if (auth.success === 1 && auth.message === "login success") {
+    let type = "login.php?email=" + this.account.email + "&password=" + this.account.password;
 
-      await this.storage.ready().then((data) => {
-        data.setItem('loginname', creds.mail);
-      });
-      await this.storage.ready().then((data) => {
-        data.setItem('user-id', auth.customerid);
-      });
-      this.navCtrl.setRoot('MenuPage');
-    } else {
-      let somwrong = this.alertCtrl.create({
-        title: 'Login Failed',
-        subTitle: 'Username or Password are not correct',
-        buttons: ['OK']
-      });
-      somwrong.present();
-    }
+    this.user.login(this.account, type).subscribe((resp: any) => {
 
+      if (resp.success === 1 && resp.message === "login success") {
+        this.customerid = resp.customerid;
+        this.setData();
+
+        this.navCtrl.setRoot(MenuPage);
+      } else {
+        let toast = this.toastCtrl.create({
+          message: "Username or Password wrong",
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+      }
+
+      //this.navCtrl.push(MainPage);
+    }, (err) => {
+      console.log(err);
+      //this.navCtrl.push(MainPage);
+
+      // Unable to log in
+      let toast = this.toastCtrl.create({
+        message: this.loginErrorString,
+        duration: 3000,
+        position: 'top'
+      });
+      toast.present();
+    });
   }
 
   doSignup() {
     this.navCtrl.push('SignupPage');
   }
 
+  getPassword() {
+    this.navCtrl.push('PasswordPage');
+  }
 }

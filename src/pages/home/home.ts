@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, Platform } from 'ionic-angular';
-import { Storage } from '@ionic/Storage';
-import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { NativeStorage } from '@ionic-native/native-storage';
+import { Api } from '../../providers/api/api';
 import { Geolocation } from '@ionic-native/geolocation';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
+import * as moment from 'moment-timezone';
+
 
 @IonicPage()
 @Component({
@@ -14,20 +16,23 @@ export class HomePage {
   private customerid: string = "";
   private locationid: string = "";
   private customer: any;
-  private certificates: string[];
+  private certificates: any;
   private logo: string = "assets/img/shop_merchant.png";
   private splitted: string[] = [];
   private certs: any = [];
   private transactions: any[] = [];
   private lat: number = -32.9477132;
   private lng: number = -60.630465800000025;
+  private marketplaceInfo:boolean=false;
+  private marketplacediscount =0;
+  private marketpoints = 0;
 
   constructor(
     public platform: Platform,
     private androidPermissions: AndroidPermissions,
     private geolocation: Geolocation,
-    private auth: AuthServiceProvider,
-    private storage: Storage,
+    private auth: Api,
+    private storage: NativeStorage,
     public navCtrl: NavController,
     public navParams: NavParams,
     private loadingCtrl: LoadingController) {
@@ -55,17 +60,55 @@ export class HomePage {
     //loading.dismiss();
   }
 
+  async specialDeals(){
+
+
+    let databasecreds1 = {
+      username: "freedom-app",
+      password: "150498AV",
+      customerid: this.customerid,
+    };
+
+    let points: any = await this.auth.marketplacepointservice(databasecreds1, "?getPoints=" + "99");
+    console.log(points.results);
+    let lengthnum = points.results.length;
+    this.marketpoints = points.results.substring(0, lengthnum - 2);
+
+    let databasecreds = {
+      username: "username",
+      password: "test",
+    };
+
+
+    let currentUnixTime = moment().tz("America/New_York").unix();
+    let param = "&customer_id="+this.customerid+
+                "&timestamp="+currentUnixTime;
+    let order:any = await this.auth.marketPlaceService(databasecreds,"getMonthlyAdditionalDiscountForCustomer.php?"+param);
+    console.log(order);
+    if ( order.additional_discount != "0"){
+      console.log(order.additional_discount);
+      this.marketplacediscount = order.additional_discount;
+      this.marketplaceInfo =true;
+    }
+  }
+
   async readCustomerData() {
 
     //await this.storage.ready().then((data) => {
     //  data.setItem('user-id', "44");
     //});
 
-    await this.storage.get('user-id').then((data) => {
-      if (data != null || data != undefined) {
-        this.customerid = data;
-      }
-    });
+    if (!this.platform.is('core')) {
+      await this.storage.getItem('user-id').then((data) => {
+        if (data != null || data != undefined) {
+          this.customerid = data;
+        }
+      });
+    } else {
+      this.customerid = "40";
+    }
+
+    await this.specialDeals();
 
     let type = "customer_data.php?customerid=" + this.customerid;
     console.log(type);
@@ -77,10 +120,12 @@ export class HomePage {
   async locateMe() {
 
     if (this.platform.is('android')) {
-      var permissions = this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION);
-      alert(permissions);
-      var requestPerm = this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION);
+      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(
+        success => console.log('Permission granted'),
+        err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+      );
     }
+
     await this.geolocation.getCurrentPosition().then((location) => {
       this.lat = location.coords.latitude;
       this.lng = location.coords.longitude;
@@ -95,29 +140,13 @@ export class HomePage {
 
     if (this.certificates != null || this.certificates != undefined) {
 
-      let token = {
-        "APIKey": "bDjnJKu7ip7097Vfq46I",
-        "TokenExID": "4323829200543105",
-        "Token": this.certificates
-      };
 
-      let wsresponse: any;
-      await this.auth.tokenize(token, "Detokenize").then((response) => {
-        let responses: any;
-        console.log("test!" + response);
-        responses = response;
-        if (responses.Success === false) {
-          alert("error");
-        } else {
-          wsresponse = responses;
-        }
-      });
+
       //alert(responses.Value);
-      this.splitted = wsresponse.Value.split(".");
-      let date = this.splitted[0];
-      let customerid = this.splitted[1];
-      let merchantid = this.splitted[2];
-      let price = this.splitted[3] + "." + this.splitted[4];
+      let date = this.certificates.timestamp;
+      let customerid = this.certificates.customer_id;
+      let merchantid = this.certificates.merchant_id;
+      let price = this.certificates.value;
 
       let merchantdata: any = await this.getMerchantData(merchantid);
       let merchantname = merchantdata.name;
@@ -166,14 +195,18 @@ export class HomePage {
   async loadCertis() {
 
 
-    await this.storage.get('user-id').then((data) => {
-      if (data != null && data != undefined) {
-        this.customerid = data;
-      }
-    });
+    if (!this.platform.is('core')) {
+      await this.storage.getItem('user-id').then((data) => {
+        if (data != null || data != undefined) {
+          this.customerid = data;
+        }
+      });
+    } else {
+      this.customerid = "40";
+    }
 
     let databasecreds = {
-      username: "freedom-pos",
+      username: "freedom-app",
       password: "150498AV",
       reference: "",
       customerid: this.customerid,
@@ -181,7 +214,7 @@ export class HomePage {
     };
     console.log(databasecreds);
 
-    let certis: any = await this.auth.serviceTransaction(databasecreds, "?getCertis=" + "99");
+    let certis: any = await this.auth.certificateService(databasecreds, "?getCertis=" + "99");
     console.log(certis.results);
     if (certis.results != undefined) {
 
@@ -195,14 +228,18 @@ export class HomePage {
 
   async laodTransactions() {
 
-    await this.storage.get('user-id').then((data) => {
-      if (data != null && data != undefined) {
-        this.customerid = data;
-      }
-    });
+    if (!this.platform.is('core')) {
+      await this.storage.getItem('user-id').then((data) => {
+        if (data != null || data != undefined) {
+          this.customerid = data;
+        }
+      });
+    } else {
+      this.customerid = "40";
+    }
 
     let databasecreds = {
-      username: "freedom-pos",
+      username: "freedom-app",
       password: "150498AV",
       reference: "",
       customerid: this.customerid,

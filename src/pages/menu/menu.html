@@ -8,7 +8,7 @@
   </ion-header>
 
 
-  <ion-content>
+  <ion-content class="back2">
     <ion-list no-lines>
       <button ion-item menuClose *ngFor="let p of pages" (click)="openPage(p)">
         <ion-icon item-start [name]="p.icon" [color]="isActive(p)" style="font-size:23px !important;">
@@ -17,7 +17,7 @@
       </button>
 
     </ion-list>
-    <ion-list>
+    <ion-list no-lines>
       <button ion-item menuClose (click)="scanBarcode()">
         <ion-icon item-start name="qr-scanner" color="red" style="font-size:23px !important;">
           Scan Code
@@ -28,11 +28,42 @@
           Enter Code
         </ion-icon>
       </button>
+      <!--<button ion-item menuClose (click)="openMarketPlace()">
+          <ion-icon item-start name="basket" color="red" style="font-size:23px !important;">
+            Marketplace
+          </ion-icon>
+        </button>-->
+      <button ion-item menuClose (click)="goToSearch()">
+        <ion-icon item-start name="search" color="red" style="font-size:23px !important;">
+          Find Merchant
+        </ion-icon>
+      </button>
+      <button ion-item menuClose (click)="goToTutorial()">
+        <ion-icon item-start name="book" color="red" style="font-size:23px !important;">
+          Tutorial
+        </ion-icon>
+      </button>
+
+     <button ion-item menuClose (click)="goToReferral()">
+          <ion-icon item-start name="people" color="red" style="font-size:23px !important;">
+            Refer A Friend
+          </ion-icon>
+        </button>
+        <button ion-item menuClose (click)="goToRegistration()" *ngIf="showReg">
+          <ion-icon item-start name="person-add" color="red" style="font-size:23px !important;">
+            Register Affiliate
+          </ion-icon>
+        </button>
+     <!--    <button ion-item menuClose (click)="testToke()">
+          <ion-icon item-start name="people" color="red" style="font-size:23px !important;">
+            tEST
+          </ion-icon>
+        </button>-->
     </ion-list>
 
-    <div class="spacer" style="height:40px;" ></div>
-    
-    <ion-list>
+    <div class="spacer" style="height:20px;"></div>
+
+    <ion-list no-lines>
       <button ion-item menuClose (click)="doLogout()">
         <ion-icon item-start name="exit" color="red" style="font-size:23px !important;">
           Logout

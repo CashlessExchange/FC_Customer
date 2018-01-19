@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { Api } from '../../providers/api/api';
 
 import { } from '@types/googlemaps';
 
@@ -13,7 +13,7 @@ import { } from '@types/googlemaps';
 export class CertificatePage {
   @ViewChild('map') mapElement;
 
-  private token: string = "";
+  private token: any = "";
   private splitted: string[] = [];
   private date: string;
   private customerid: string;
@@ -29,11 +29,12 @@ export class CertificatePage {
 
 
   constructor(
-    public autService: AuthServiceProvider,
+    public autService: Api,
     public navCtrl: NavController,
     public navParams: NavParams) {
 
     this.token = navParams.get("token");
+    console.log(this.token);
     this.showDetails();
   }
 
@@ -43,30 +44,17 @@ export class CertificatePage {
       "TokenExID": "4323829200543105",
       "Token": this.token
     };
-
-    await this.autService.tokenize(token, "Detokenize").then((response) => {
-      let responses: any;
-      console.log(response);
-      responses = response;
-      if (responses.Success === false) {
-        alert("error");
-      } else {
-
         //alert(responses.Value);
-        this.splitted = responses.Value.split(".");
-        this.date = this.splitted[0];
-        this.customerid = this.splitted[1];
-        this.merchantid = this.splitted[2];
-        this.price = this.splitted[3] + "." + this.splitted[4];
-        let temp1 = this.splitted[5] + "." + this.splitted[6];
-        let temp2 = this.splitted[7] + "." + this.splitted[8];
-        this.lat = Number(temp1);
-        this.lng = Number(temp2);
+        this.date = this.token.timestamp;
+        this.customerid = this.token.customer_id;
+        this.merchantid = this.token.merchant_id;
+        this.price = this.token.value;
+
         console.log(this.splitted);
 
         //this.token = responses.Token;
-      }
-    });
+      
+  
     await this.merchantData();
     this.initMap();
   }
@@ -147,6 +135,20 @@ export class CertificatePage {
     console.log(merch);
     return merch;
 
+  }
+
+  addPoint(num) {
+    let temp = num.toString();
+    if (temp.length === 1) {
+      temp = "0.0" + temp;
+    } else if (temp.length === 2) {
+      temp = "0." + temp;
+    }
+    else {
+      let lengthnum = temp.length;
+      temp = temp.substring(0, lengthnum - 2) + "." + temp.substring(lengthnum - 2, lengthnum);
+    }
+    return temp;
   }
 
 }

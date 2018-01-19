@@ -12,16 +12,16 @@
               <ion-icon name="menu"></ion-icon>        
           </button>
         </ion-buttons>
-    <ion-title>paymethods</ion-title>
+    <ion-title>My Cards</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-    <H2>Your Creditcards</H2>
+<ion-content padding class="background">
+    <H2>My Credit Cards</H2>
     <p>Your Data will be save with us!</p>
-  <div class="spacer" style="width:300px;height:15px;" id="paymethods-spacer6"></div>
+  <div class="spacer" style="width:300px;height:15px;" ></div>
 <ion-list>
 
   <ion-item *ngFor="let option of cardsonpage" (click)="editCard(option)" ion-item>

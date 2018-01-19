@@ -1,80 +1,131 @@
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { Camera } from '@ionic-native/camera';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-import {HttpModule} from '@angular/http';
-import { MyApp } from './app.component';
-import {SumbitService} from '../services/submit.services';
-import {BarcodeScanner} from '@ionic-native/barcode-scanner';
-import { AuthServiceProvider } from '../providers/auth-service/auth-service';
-import { Base64 } from '@ionic-native/base64';
-import {AddpaymethodPage} from '../pages/addpaymethod/addpaymethod';
-import {CardsPage} from '../pages/cards/cards';
-import {CertificatePage} from '../pages/certificate/certificate';
-import {EntercodePage} from '../pages/entercode/entercode';
-import {EditcardPage} from '../pages/editcard/editcard';
-
-import {IonicStorageModule} from '@ionic/Storage';
-import {CheckoutPage} from '../pages/checkout/checkout';
-
-import {CardService} from '../services/card.service';
-import {CertificateService} from '../services/certificate.service';
+import { IonicStorageModule, Storage } from '@ionic/storage';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { NativeStorage } from '@ionic-native/native-storage';
+import { Items } from '../mocks/providers/items';
+import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
-import {NFC,Ndef} from '@ionic-native/nfc';
-import {SQLite}from '@ionic-native/sqlite';
-import {CardnumberPipe} from '../pipes/cardnumber/cardnumber'
-import { Geolocation } from '@ionic-native/geolocation';
-import {FingerprintAIO} from '@ionic-native/fingerprint-aio';
+import { Settings } from '../providers/providers';
+import { User } from '../providers/providers';
+import { Api } from '../providers/providers';
+import { Base64 } from '@ionic-native/base64';
+import { HttpModule } from '@angular/http';
 
-//AIzaSyBSvLiaLr6tX6VIoJt-wcD4EceovawHf8Q
+import { MyApp } from './app.component';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { Geolocation } from '@ionic-native/geolocation';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+
+
+//Pages
+import { MenuPage } from '../pages/menu/menu';
+import { EditcardPage } from '../pages/editcard/editcard';
+import { CardsPage } from '../pages/cards/cards';
+import { SpecialPage } from '../pages/special/special';
+import { CertificatePage} from '../pages/certificate/certificate';
+import { EntercodePage} from '../pages/entercode/entercode';
+import { CheckoutPage} from '../pages/checkout/checkout';
+import { AddpaymethodPage} from '../pages/addpaymethod/addpaymethod';
+import { PricevaluePage } from '../pages/pricevalue/pricevalue';
+import { Tutorial2Page } from '../pages/tutorial2/tutorial2';
+import { ChoosepaymethodPage } from '../pages/choosepaymethod/choosepaymethod';
+import { MarketplacePage } from '../pages/marketplace/marketplace';
+import { ChoosepaymentcardformarketplacePage } from '../pages/choosepaymentcardformarketplace/choosepaymentcardformarketplace';
+import { MarketplacetransactionPage } from '../pages/marketplacetransaction/marketplacetransaction';
+import { PointsPage } from '../pages/points/points';
+import { CouponsPage } from '../pages/coupons/coupons';
+
+// The translate loader needs to know where to load i18n files
+// in Ionic's static asset pipeline.
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
+export function provideSettings(storage: Storage) {
+  /**
+   * The Settings provider takes a set of default settings for your app.
+   *
+   * You can add new settings options at any time. Once the settings are saved,
+   * these values will not overwrite the saved values (this can be done manually if desired).
+   */
+  return new Settings(storage, {
+    option1: true,
+    option2: 'Ionitron J. Framework',
+    option3: '3',
+    option4: 'Hello'
+  });
+}
+
 @NgModule({
   declarations: [
     MyApp,
-    AddpaymethodPage,
-    CheckoutPage,
+    MenuPage,
+    EditcardPage,
     CardsPage,
-    CardnumberPipe,
     CertificatePage,
     EntercodePage,
-    EditcardPage
+    CheckoutPage,
+    AddpaymethodPage,
+    PricevaluePage,
+    Tutorial2Page,
+    ChoosepaymethodPage,
+    MarketplacePage,
+    CouponsPage
   ],
   imports: [
+    HttpModule,
     BrowserModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot(),
-    HttpModule
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AddpaymethodPage,
-    CheckoutPage,
+    MenuPage,
+    EditcardPage,
     CardsPage,
     CertificatePage,
     EntercodePage,
-    EditcardPage
+    CheckoutPage,
+    AddpaymethodPage,
+    PricevaluePage,
+    Tutorial2Page,
+    ChoosepaymethodPage,
+    MarketplacePage,
+    CouponsPage
   ],
   providers: [
-    StatusBar,
+    Api,
+    Items,
+    User,
+    Camera,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    BarcodeScanner,
-    SumbitService,
-    AuthServiceProvider, 
-    Base64,
-    NFC,
-    Ndef,
-    CardService,
-    CertificateService,
-    SQLite,
-    Geolocation,
+    StatusBar,
+    NativeStorage,
     FingerprintAIO,
-    AndroidPermissions
-  ],
-  schemas: [ 
-    CUSTOM_ELEMENTS_SCHEMA,
-    NO_ERRORS_SCHEMA
-  ]
+    AndroidPermissions,
+    BarcodeScanner,
+    InAppBrowser,
+    Geolocation,
+    Base64,
+    { provide: Settings, useFactory: provideSettings, deps: [Storage] },
+    // Keep this to enable Ionic's runtime error handling during development
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
+    ]
 })
-export class AppModule {}
+export class AppModule { }

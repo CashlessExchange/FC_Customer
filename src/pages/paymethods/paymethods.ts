@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Platform } from 'ionic-angular';
 import { CardsPage } from '../cards/cards';
-import { Storage } from '@ionic/Storage';
-import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { Api } from '../../providers/api/api';
 import { EditcardPage } from '../editcard/editcard';
+import { NativeStorage } from '@ionic-native/native-storage';
 
-import { CardService } from '../../services/card.service';
 
 
 @IonicPage()
@@ -15,29 +14,19 @@ import { CardService } from '../../services/card.service';
 })
 export class PaymethodsPage {
   private cardsonpage: any[] = [];
-  private tokens: string[] = [];
+  private tokens: any[] = [];
   private splitted: string[];
   private customerid: string;
   //private cardsonpage:{cardname:string,cardowner:string,cardnumber:string,month:string,year:string,checkdigit:string,icon:string}[] =[];
-  private card: {
-    cardname: string,
-    cardowner: string,
-    cardnumber: string,
-    month: string,
-    year: string,
-    checkdigit: string,
-    icon: string,
-    token: string
-  };
+  private card:any;
 
   constructor(
     public loadingCtrl: LoadingController,
-    private autService: AuthServiceProvider,
-    private cardService: CardService,
-    public storage: Storage,
+    private platform:Platform,
+    private autService: Api,
+    public storage: NativeStorage,
     public navCtrl: NavController,
-    public navParams: NavParams,
-    private cardsfromservice: CardService) {
+    public navParams: NavParams) {
     this.cardsonpage = [];
   }
 
@@ -52,13 +41,6 @@ export class PaymethodsPage {
       </div>`
     });
 
-    //this.cardsonpage = await this.storage.get('card1').then((data)=>{
-    //  console.log(data);
-    //  return data.cards;
-    //});
-    //await this.cardService.getCards().then((cards)=>{
-    //  this.tokens =  cards;
-    //});
     loading.present();
     await this.loadCards()
 
@@ -74,34 +56,18 @@ export class PaymethodsPage {
           "Token": entry
         };
 
-        await this.autService.tokenize(token, "Detokenize").then((response) => {
-          let responses: any;
-          console.log("test!" + response);
-          responses = response;
-          if (responses.Success === false) {
-            alert("error");
-          } else {
+        this.card = {
+          cardname: entry.card_type,
+          cardowner: entry.name_on_card,
+          cardnumber: entry.account_number,
+          month: entry.expire_month,
+          year: entry.expire_year,
+          checkdigit: entry.card_verification_value,
+          icon: entry.icon
+        }
 
-            //alert(responses.Value);
-            this.splitted = responses.Value.split("-");
-            console.log(this.splitted);
-            this.card = {
-              cardname: this.splitted[0],
-              cardowner: this.splitted[1],
-              cardnumber: this.splitted[2],
-              month: this.splitted[3],
-              year: this.splitted[4],
-              checkdigit: this.splitted[5],
-              icon: this.splitted[6],
-              token: entry
+        this.cardsonpage.push(this.card);
 
-            }
-
-            console.log(this.splitted);
-            this.cardsonpage.push(this.card);
-            //this.token = responses.Token;
-          }
-        });
 
       }
     }
@@ -114,14 +80,18 @@ export class PaymethodsPage {
 
   async loadCards() {
 
-    await this.storage.get('user-id').then((data) => {
-      if (data != null && data != undefined) {
-        this.customerid = data;
-      }
-    });
+    if (!this.platform.is('core')) {
+      await this.storage.getItem('user-id').then((data) => {
+        if (data != null || data != undefined) {
+          this.customerid = data;
+        }
+      });
+    } else {
+      this.customerid = "73";
+    }
 
     let databasecreds = {
-      username: "freedom-pos",
+      username: "freedom-app",
       password: "150498AV",
       reference: "",
       customerid: this.customerid,
@@ -129,7 +99,7 @@ export class PaymethodsPage {
     };
     console.log(databasecreds);
 
-    let certis: any = await this.autService.serviceTransaction(databasecreds, "?getCards=" + "99");
+    let certis: any = await this.autService.cardService(databasecreds, "?getCards=" + "99");
     console.log(certis.results);
     this.tokens = certis.results;
   }
@@ -143,7 +113,7 @@ export class PaymethodsPage {
   filter(value: string) {
     let secret = "*******";
     let endcard = value.length;
-    return secret + value.substring(endcard - 3, endcard);
+    return secret + value.substring(endcard - 4, endcard);
   }
 
   addCard() {

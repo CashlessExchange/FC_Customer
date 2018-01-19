@@ -6,13 +6,13 @@
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>Certificates</ion-title>
+    <ion-title>My Certificates</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="background">
 
 
   <ion-list>
@@ -25,7 +25,7 @@
       <h2>
         Merchant: {{option.merchantname}}
       </h2>
-      <span>Certificate: {{option.token}}</span>
+      <span>Store Credit ID: {{option.token.id}}</span>
     </ion-item>
   </ion-list>
 

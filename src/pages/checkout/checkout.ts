@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
-import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { IonicPage, NavController, NavParams, LoadingController, Platform, ToastController } from 'ionic-angular';
+import { Api } from '../../providers/api/api';
 import { AlertController } from 'ionic-angular';
-import { CardService } from '../../services/card.service';
-import { CertificateService } from '../../services/certificate.service';
 import { Geolocation } from '@ionic-native/geolocation';
 
-import { Storage } from '@ionic/Storage';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 
 @IonicPage()
@@ -21,13 +19,12 @@ export class CheckoutPage {
   private customerid: string;
   private cardsonpage: any[] = [];
   private certsonpage: {
-    date: string,
+    date: any,
     customerid: string,
     merchantid: string,
-    price: string,
-    token: string
+    price: string
   }[] = [];
-  private tokens: string[] = [];
+  private tokens: any[] = [];
   private splittedCards: string[];
   private splittedCerts: string[];
   private tempCerts: any[] = [];
@@ -51,15 +48,25 @@ export class CheckoutPage {
     merchantlogo: this.logo
   };
   private guthaben: Number = 0;
-  private selectedCard: string;
+  private selectedCard: any;
   private items: {
     id: string,
-    reference: String,
+    deal: String,
+    name: String,
     price: string,
     merchantid: string,
-    customerid: string
+    customerid: string,
+    ref: string
+  } = {
+    id: "",
+    deal: "",
+    name: "",
+    price: "",
+    merchantid: "",
+    customerid: "",
+    ref: ""
   };
-  private price: string;
+  private price: string="0.00";
   private feeForMerchant: number;
   private testCheckboxOpen;
   private discountBox: {
@@ -69,46 +76,84 @@ export class CheckoutPage {
     checked: boolean
   }[] = [];
   private chosenToken: string[] = [];
+  private newMErchantID: string;
+  private priceTemp: any;
+  private discount:number=0;
+  private vaucherid:string;
+  private itemsprice:string="0.00";
+  
 
   constructor(public loadingCtrl: LoadingController,
+    private toatCtrl: ToastController,
+    private platform: Platform,
     private geolocation: Geolocation,
-    private storage: Storage,
+    private storage: NativeStorage,
     public alertCtrl: AlertController,
-    private autService: AuthServiceProvider,
-    private cardsfromservice: CardService,
+    private autService: Api,
     public navCtrl: NavController,
-    public navParams: NavParams,
-    public certService: CertificateService) {
-    this.data = navParams.get('data');
+    public navParams: NavParams) {
+    this.newMErchantID = navParams.get('merchant');
+    this.price = navParams.get('price');
     this.ref = navParams.get('ref');
-    this.storage.get('user-id').then((data) => {
-      if (data != null && data != undefined) {
-        this.customerid = data;
-      }
-      console.log(this.customerid);
-    });
-    this.feeForMerchant = Number(this.calcFee(this.addPoint(this.data.value)));
-    this.items = {
-      id: this.data.id,
-      reference: this.ref,
-      price:
-      String(Number(this.addPoint(this.data.value)) + this.feeForMerchant),
-      merchantid: this.data.merchant_id,
-      customerid: this.customerid
-    };
-    console.log(this.items.price);
-    this.price = Number(this.items.price).toFixed(2)+"";
+    this.items.ref = this.ref;
+    this.selectedCard = navParams.get('selectedcard');
+    this.discount = navParams.get('discount');
+    this.feeForMerchant = navParams.get('fees');
+    this.vaucherid = navParams.get('vaucherid');
+    this.chosenToken = navParams.get('certs');
+    this.guthaben = navParams.get('guthaben');
+    this.itemsprice = navParams.get('itemsprice');
+    console.log(navParams);
+    this.items.price = navParams.get('price');
+    this.items.name = navParams.get('item');
+    //this.items.name = "test";
+    this.items.deal = navParams.get('deal');
+    this.items.merchantid = this.newMErchantID;
+
+    if (!this.platform.is('core')) {
+      this.storage.getItem('user-id').then((data) => {
+        if (data != null || data != undefined) {
+          this.customerid = data;
+        }
+      });
+    } else {
+      this.customerid = "73";
+    }
+    this.prepareItem("nada");
     this.cardsonpage = [];
-    this.getCardsFromToken();
-    this.getCertificatesFromMerchant();
+    //this.getCardsFromToken();
+    //this.getCertificatesFromMerchant();
     this.merchantData();
   }
+
+  
+
+  async prepareItem(param:string) {
+    console.log(this.price);
+
+    if(param!="solo"){
+      
+
+      
+      let newPrice = this.price;
+
+
+    }else{
+      console.log(this.items.price);
+      console.log(this.discount);
+      //let ammountNew:number =Number(this.items.price) - this.discount;
+      //this.price = String(ammountNew.toFixed(2));
+      //this.feeForMerchant=0;
+    }
+
+  }
+
 
   async merchantData() {
     let databasecreds = {
       username: "merchantbackuser",
       password: "150498AV",
-      reference: "",
+      reference: this.ref,
       customerid: this.customerid,
       token: "",
       id: this.items.merchantid
@@ -137,196 +182,6 @@ export class CheckoutPage {
 
   }
 
-  async loadCards() {
-
-    await this.storage.get('user-id').then((data) => {
-      if (data != null && data != undefined) {
-        this.customerid = data;
-      }
-    });
-
-    let databasecreds = {
-      username: "freedom-pos",
-      password: "150498AV",
-      reference: "",
-      customerid: this.customerid,
-      token: ""
-    };
-    console.log(databasecreds);
-
-    let certis: any = await this.autService.serviceTransaction(databasecreds, "?getCards=" + "99");
-    console.log(certis.results);
-    this.tokens = certis.results;
-  }
-
-  async getCardsFromToken() {
-
-    await this.loadCards();
-    //console.log(this.tokens);
-    if (this.tokens != null && this.tokens != undefined) {
-
-      for (let entry of this.tokens) {
-
-        let token = {
-          "APIKey": "bDjnJKu7ip7097Vfq46I",
-          "TokenExID": "4323829200543105",
-          "Token": entry
-        };
-
-        await this.autService.tokenize(token, "Detokenize").then((response) => {
-          let responses: any;
-          //console.log("test!"+response);
-          responses = response;
-          if (responses.Success === false) {
-            alert("error");
-          } else {
-
-            //alert(responses.Value);
-            this.splittedCards = responses.Value.split("-");
-            //console.log(this.splitted);
-            this.card = {
-              cardname: this.splittedCards[0],
-              cardowner: this.splittedCards[1],
-              cardnumber: this.splittedCards[2],
-              month: this.splittedCards[3],
-              year: this.splittedCards[4],
-              checkdigit: this.splittedCards[5],
-              icon: this.splittedCards[6],
-
-            }
-
-            //console.log(this.splitted);
-            this.cardsonpage.push(this.card);
-            //this.token = responses.Token;
-          }
-        });
-
-        //console.log(this.cardsonpage);
-      }
-    }
-
-  }
-
-  async getCertificatesFromMerchant() {
-    let customer = await this.storage.get('user-id').then((data) => {
-      if (data != null && data != undefined) {
-        return data;
-      }
-    });
-
-    let databasecreds = {
-      username: "freedom-pos",
-      password: "150498AV",
-      reference: "",
-      customerid: this.customerid,
-      token: ""
-    };
-    console.log(databasecreds);
-
-    let certis: any = await this.autService.serviceTransaction(databasecreds, "?getCertis=" + "99");
-    console.log(certis.results);
-    this.tempCerts = certis.results;
-
-    if (this.tempCerts != undefined && this.tempCerts != null) {
-
-
-      for (let entry of this.tempCerts) {
-        let token = {
-          "APIKey": "bDjnJKu7ip7097Vfq46I",
-          "TokenExID": "4323829200543105",
-          "Token": entry
-        };
-
-        await this.autService.tokenize(token, "Detokenize").then((response) => {
-          let responses: any;
-          console.log(response);
-          responses = response;
-          if (responses.Success === false) {
-            alert(responses);
-          } else {
-
-            //alert(responses.Value);
-            this.splittedCerts = responses.Value.split(".");
-            let certi = {
-              date: this.splittedCerts[0],
-              customerid: this.splittedCerts[1],
-              merchantid: this.splittedCerts[2],
-              price: this.splittedCerts[3] + "." + this.splittedCerts[4],
-              token: entry
-            };
-
-            if (certi.merchantid === this.items.merchantid) {
-              this.discountBox.push({
-                type: 'checkbox',
-                label: certi.price + ' from Date: ' + certi.date,
-                value: certi.price + "_" + entry,
-                checked: true
-              });
-              this.certsonpage.push(certi);
-
-            }
-            //this.token = responses.Token;
-          }
-        });
-      }
-    }
-    if (this.certsonpage.length > 0) {
-      this.showCheckbox();
-
-    }
-  }
-
-  async showCheckbox() {
-    let alert = this.alertCtrl.create();
-    alert.setTitle('Do you want to use the discount of your certificate?');
-
-
-    for (let entry of this.discountBox) {
-      alert.addInput(entry);
-    }
-
-    alert.addButton('no');
-    alert.addButton({
-      text: 'add discount',
-      handler: data => {
-        console.log('Checkbox data:', data);
-        this.testCheckboxOpen = false;
-        let dataList: any = [];
-        for (let entry of data) {
-          let databox: String = entry + "";
-          let splitted: string[] = databox.split("_");
-          dataList.push(splitted[0]);
-          this.chosenToken.push(splitted[1]);
-        }
-        this.certificateOption = dataList;
-        this.changePrice();
-      }
-    });
-    await alert.present();
-
-  }
-
-  selected(select) {
-    console.log(select);
-    this.selectedCard = select;
-  }
-
-  addPoint(num) {
-    console.log(num);
-    let temp = num.toString();
-    if (temp.length === 1) {
-      console.log("inside Trap_______");
-      temp = "0.0" + temp;
-    } else if (temp.length === 2) {
-      console.log("inside Trap_______");
-      temp = "0." + temp;
-    }
-    else {
-      let lengthnum = temp.length;
-      temp = temp.substring(0, lengthnum - 2) + "." + temp.substring(lengthnum - 2, lengthnum);
-    }
-    return temp;
-  }
 
   filter(value: string) {
     let secret = "*******";
@@ -334,46 +189,9 @@ export class CheckoutPage {
     return secret + value.substring(endcard - 3, endcard);
   }
 
-  changePrice() {
-    console.log("Test");
-    let discount: number = 0;
-    if (this.certificateOption != null || this.certificateOption != undefined) {
-      for (let entry of this.certificateOption) {
 
-        console.log(entry);
-        console.log("-------");
-        console.log(entry.replace(/\s+/g, ''));
-        let value: string;
-        value = entry;
-        this.values = [];
-        this.values.push(entry.replace(/\s+/g, ''));
-        discount += Number(entry.replace(/\s+/g, ''));
-      }
-    }
-    console.log(discount);
-    console.log(this.items.price);
-    if (Number(this.items.price) < discount) {
-      console.log("inside trap");
 
-      this.guthaben = (discount - Number(this.items.price));
-      console.log(this.guthaben);
-      this.price = "0.00";
-    } else {
-      this.guthaben = 0;
-      console.log(this.guthaben);
-      let tempPrice: number = (Number(this.items.price) - discount);
-      this.price = tempPrice.toFixed(2);
-    }
 
-    console.log(discount);
-  }
-
-  calcFee(ammount: number) {
-    console.log("this is CalcFee: " + ammount);
-    let value = ammount * 0.03;
-    console.log(value);
-    return value.toFixed(2);
-  }
 
   async createToken(customerid: any, merchantid: any, price: any) {
 
@@ -385,7 +203,7 @@ export class CheckoutPage {
       { customerid: "3004", merchantid: "19", value: "3", date: "04.10.2017" };
 
     //HERE Comes the Percentage for certificate
-    let tempValue = Number(value) * 0.06;
+    let tempValue = Number(this.feeForMerchant) * 2;
     if (this.guthaben != 0) {
       tempValue = Number(this.guthaben);
     }
@@ -416,15 +234,7 @@ export class CheckoutPage {
         "TokenScheme": 4
       };
 
-      this.certService.getCertis().then((certificate) => {
-        if (certificate != null && certificate != undefined) {
-          this.certificates = certificate;
-          console.log(this.certificates);
-        } else {
-          this.certificates = [];
-        }
 
-      });
       await this.autService.tokenize(token, "Tokenize").then((response) => {
         let responses: any;
         console.log(response);
@@ -439,15 +249,18 @@ export class CheckoutPage {
 
 
       let databasecreds = {
-        username: "freedom-pos",
+        username: "freedom-app",
         password: "150498AV",
-        reference: "99",
+        merchantid: this.items.merchantid,
         customerid: this.customerid,
-        token: this.token
+        token: this.token,
+        reference:this.ref,
+        value: priceForCerts.replace(".", "")
+
       };
       console.log(databasecreds);
 
-      let datas: any = await this.autService.serviceTransaction(databasecreds, "?addCerti=" + "99");
+      let datas: any = await this.autService.certificateService(databasecreds, "?addCerti=" + "99");
       if (datas.addCerti === "success") {
         console.log("successfully saved in Database");
       }
@@ -462,12 +275,13 @@ export class CheckoutPage {
   makeid() {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  
+
     for (var i = 0; i < 5; i++)
       text += possible.charAt(Math.floor(Math.random() * possible.length));
-  
+
     return text;
   }
+
 
   async buyAction() {
     console.log(this.certificateOption);
@@ -481,8 +295,8 @@ export class CheckoutPage {
     });
 
     console.log(this.price);
-    if ((this.selectedCard === null && this.guthaben === 0 && this.price != "0.00") || 
-    (this.guthaben === 0 && this.selectedCard === undefined && this.price != "0.00")) {
+    if (
+        (this.selectedCard.cardname==="StoreCredit" && this.guthaben === 0 && this.price != "0.00")) {
       let noPayment = this.alertCtrl.create({
         title: 'Warning',
         subTitle: 'Please choose your paymethod',
@@ -493,25 +307,47 @@ export class CheckoutPage {
     } else {
 
 
-      let random:string = this.customerid + this.items.merchantid+ this.makeid();
-      console.log(random);
+      //let random: string = this.customerid + this.items.merchantid + this.makeid();
+      //console.log(random);
 
+      let feeForDB = "" + this.feeForMerchant;
+      feeForDB = feeForDB.replace(/\./g, "");
+      console.log(feeForDB);
+      console.log(this.selectedCard);
+      let cashFlow: number = 0;
+      if (this.selectedCard != undefined && this.selectedCard.cash === 1) {
+        cashFlow = this.selectedCard.cash;
+        console.log("cashflow: " + cashFlow);
+      }
+      let databasecreds1 =
+      {
+        username: "freedom-app",
+        password: "150498AV",
+        reference: this.ref,
+        customerid: this.customerid
+      };
+    let id:any = await this.autService.serviceTransaction(databasecreds1, "?getid=" + this.ref);
+    let last4 = 0;
+    if(this.selectedCard != undefined){
+     last4= Number(this.selectedCard.cardnumber.slice(-4));
+     if(!Number.isInteger(last4)){
+        last4=4444;
+     }
+    }
       let databasecreds =
         {
-          username: "freedom-pos",
+          username: "freedom-app",
           password: "150498AV",
           reference: this.ref,
-          id: this.data.id,
           customerid: this.customerid,
-          transaction:random
+          transaction: this.items.deal,
+          cash: cashFlow,
+          id:id.id,
+          convenience_fee: feeForDB,
+          last4: last4,
+          card_type: this.selectedCard.cardname
         };
 
-      let type = "check_vaucher_discount.php?customer_id=" + this.customerid +
-        "&merchant_id=" + this.items.merchantid +
-        "&deal_id="+random;
-      //@TODO
-      //let discountFromAPI:any = this.autService.serviceFreedom("",type);
-      //console.log(discountFromAPI);
       let discount = 0;
       if (this.certificateOption != null || this.certificateOption != undefined) {
         for (let entry of this.certificateOption) {
@@ -531,15 +367,15 @@ export class CheckoutPage {
       let newPrice = this.price;
       //this.items.price=newPrice.toString();
       let messageForCustomer: string =
-        'By clicking Agree, you hereby authorize this Merchant to add 3% to total price to purchase Certificates totaling double that amount. Total: '
-        + newPrice.toString().replace(/\s+/g, '') + "$, fees" + this.feeForMerchant + '$, discount(' + discount.toFixed(2) + '$) ';
+        'By clicking Agree, you hereby authorize this Merchant to add fees to total price to purchase Certificates totaling double that amount. Total: $'
+        + newPrice.toString().replace(/\s+/g, '') + ", fees $" + this.feeForMerchant + ', discount($' + discount.toFixed(2) + ') ';
       if (this.guthaben != 0) {
-        messageForCustomer += " - new value for certificate: " + this.guthaben.toFixed(2) + "$";
+        messageForCustomer += " - new value for certificate: $" + this.guthaben.toFixed(2) ;
       }
 
       let confirm = this.alertCtrl.create({
-        title: 'Do you want to buy this item?',
-        message: messageForCustomer,
+        title: 'Approval',
+        message: 'Do you want to buy this item?',
         buttons: [
           {
             text: 'Disagree',
@@ -553,34 +389,72 @@ export class CheckoutPage {
               loading.present();
               console.log("Agree clicked");
               let result: any;
-              result = await this.autService.serviceTransaction(databasecreds, "?update=" + this.ref);
+              result = await this.autService.serviceTransaction(databasecreds, "?updateNew=" + this.ref);
               console.log(result);
-              let type = "app_payment.php?customer_id=" + this.customerid +
+              let type = "app_payment.php?deal_id=" + this.items.deal +
+              "&customer_id=" + this.customerid +
                 "&merchant_id=" + this.items.merchantid +
-                "&deal_id=" + random+
+                "&qr_code=" + this.ref +
                 "&deal_amount=" + this.items.price +
-                "&qr_code=" + this.items.reference +
-                "&vaucher_discount_id=1";
+                "&vaucher_discount_id=" + this.vaucherid +
+                "&vaucher_discount_percent=6"+
+              "&processing_fee=" + this.feeForMerchant;
               //@TODO
-              //let buyApp:any= this.autService.serviceFreedom("",type);
-              //console.log(buyApp);
+              let buyApp: any = this.autService.serviceFreedom("", type);
+              console.log(buyApp);
               if (result.buy = 'success') {
-                //let buyApp:any= await this.autService.serviceFreedom("",type);
-                console.log("new Price: "+newPrice);
-                await this.createToken(this.items.customerid, this.items.merchantid, newPrice);
+                try {
+                  let buyApp: any = this.autService.serviceFreedom("", type);
+                  console.log(buyApp);
+                } catch (err) {
+                  console.log(err);
+                }
+                console.log("new Price: " + newPrice);
+                if (this.selectedCard != null) {
+
+                  this.callForte();
+
+                }
+                let databasecreds = {
+                  username: "merchantbackuser",
+                  password: "150498AV",
+                  merchantid: this.newMErchantID
+                };
+                let refer:any = await this.autService.merchantService(databasecreds, "?affiliateCommission=" + "99");
+
+                console.log(refer);
+
+                if(refer.affiliateCommission.referer_id!=0){
+                  let commision = await this.autService.commissionService("", "?affiliate_id="+refer.affiliateCommission.referer_id+"&commission_type=sale_stored_payment ");
+                  console.log(commision);
+                }
+                if(this.selectedCard.cardname != "Cash/Check"){
+                  await this.createToken(this.items.customerid, this.items.merchantid, newPrice);
+                } 
+                let trans:string = "Card";
+                if(this.selectedCard.cardname === "Cash/Check"){
+                  trans="Cash";
+                }
+                let param = "merchant_id="+this.items.merchantid +
+                "&ref_no="+this.items.ref+
+                "&trans_type="+trans+
+                "&trans_amount="+this.itemsprice+
+                "&customer_id="+this.customerid;
+                //await this.createToken(this.items.customerid, this.items.merchantid, newPrice);
+                await this.autService.marketPlaceMerchantService(databasecreds,"recordFcTransactionFees.php?"+param);
+
                 console.log(this.values);
                 for (let value of this.chosenToken) {
                   await this.deleteToken(value);
                 }
-
-                let confirmbuy = this.alertCtrl.create({
-                  title: 'Success',
-                  subTitle: 'You bought this new item',
-                  buttons: ['OK']
+                let toast = this.toatCtrl.create({
+                  message: " Success - You bought this new item",
+                  duration: 3000,
+                  position: 'top'
                 });
 
                 loading.dismiss();
-                confirmbuy.present();
+                toast.present();
               } else {
                 let somwrong = this.alertCtrl.create({
                   title: 'ERROR',
@@ -600,6 +474,68 @@ export class CheckoutPage {
     }
   }
 
+  async callForte() {
+
+    let databasecreds = {
+      username: "merchantbackuser",
+      password: "150498AV",
+      merchantid: this.newMErchantID
+    };
+    let refer:any = await this.autService.merchantService(databasecreds, "?location_id=" + "99");
+    
+
+    let token = {
+      "APIKey": "bDjnJKu7ip7097Vfq46I",
+      "TokenExID": "4323829200543105",
+      "Data": "4111111111111111",
+      "TokenScheme": 1
+    };
+
+    /*
+        cardname: "Cash/Check",
+        cardowner: "Anonym",
+        cardnumber: "0",
+        month: "0",
+        year: "0",
+        checkdigit: "0",
+        icon: "Anonym",
+        cash: 1
+    '*/
+    let splittedName = this.selectedCard.cardowner.split(" ");
+
+    let forteTransaction =
+      {
+        action: "sale",
+        authorization_amount: this.price,
+        subtotal_amount: this.items.price,
+        billing_address: {
+          first_name: this.selectedCard.cardowner.split(" ")[0],
+          last_name: this.selectedCard.cardowner.split(" ")[1]
+        },
+        card: {
+          card_type: this.selectedCard.cardname,
+          name_on_card: this.selectedCard.cardowner,
+          account_number: "{{{" + this.selectedCard.cardnumber + "}}}",
+          expire_month: this.selectedCard.month.replace(/\s+/g, ''),
+          expire_year: this.selectedCard.year.replace(/\s+/g, ''),
+          card_verification_value: this.selectedCard.checkdigit
+        }
+      };
+
+    await this.autService.tokenizeTrans(forteTransaction, refer.location_id.forte_loc_id).then((response) => {
+      let responses: any;
+      console.log(response);
+      responses = response;
+      if (responses.Success === false) {
+        alert("error");
+      } else {
+        //alert(responses.Token);
+        console.log(responses.Token);
+      }
+    });
+
+
+  }
   async deleteToken(value: string) {
 
     console.log(value);
@@ -611,27 +547,17 @@ export class CheckoutPage {
       "Token": value
     };
 
-    await this.autService.tokenize(token, "DeleteToken").then((response) => {
-      let responses: any;
-      console.log("test!" + response);
-      responses = response;
-      if (responses.Success === false) {
-        alert("error");
-      }
-      console.log(responses.Success);
-
-    });
 
     let databasecreds = {
-      username: "freedom-pos",
+      username: "freedom-app",
       password: "150498AV",
-      reference: "",
+      reference: this.ref,
       customerid: this.customerid,
       token: value
     };
     console.log(databasecreds);
 
-    let deletion = await this.autService.serviceTransaction(databasecreds, "?deleteCerti=" + "99");
+    let deletion = await this.autService.certificateService(databasecreds, "?deleteCerti=" + "99");
     console.log(deletion);
 
   }
@@ -640,14 +566,21 @@ export class CheckoutPage {
 
     let databasecreds =
       {
-        username: "freedom-pos",
+        username: "freedom-app",
         password: "150498AV",
         reference: this.ref,
-        id: this.data.id,
-        customerid: 5000
+        customerid: this.customerid
       };
+    let id:any = await this.autService.serviceTransaction(databasecreds, "?getid=" + this.ref);
 
-
+     let databasecreds2 =
+    {
+      username: "freedom-app",
+      password: "150498AV",
+      reference: this.ref,
+      customerid: this.customerid,
+      id:id.id
+    };
 
     let confirm = this.alertCtrl.create({
       title: 'Do you want to cancel this deal?',
@@ -664,16 +597,15 @@ export class CheckoutPage {
           handler: async () => {
             console.log("Agree clicked");
             let result: any;
-            result = await this.autService.serviceTransaction(databasecreds, "?cancel=" + this.ref);
+            result = await this.autService.serviceTransaction(databasecreds2, "?cancel=" + id.id);
             console.log(result);
-            if (result.cancel = 'success') {
-              let confirmbuy = this.alertCtrl.create({
-                title: 'Success',
-                subTitle: 'You canceled this deal',
-                buttons: ['OK']
-              });
-              confirmbuy.present();
-            }
+            let confirmbuy = this.alertCtrl.create({
+              title: 'Success',
+              subTitle: 'You canceled this deal',
+              buttons: ['OK']
+            });
+            confirmbuy.present();
+
             this.navCtrl.popToRoot();
           }
         }

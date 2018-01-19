@@ -10,7 +10,7 @@
         "spec": ">=1.0.0 <2.0.0",
         "type": "range"
       },
-      "/Users/mariaschanz/Desktop/ionic-test/freedomchoice/node_modules"
+      "/Users/mariaschanz/Desktop/ionic-test/freedomchoicetest"
     ]
   ],
   "_from": "cordova-plugin-compat@>=1.0.0 <2.0.0",
@@ -45,7 +45,7 @@
   "_shasum": "0bc65757276ebd920c012ce920e274177576373e",
   "_shrinkwrap": null,
   "_spec": "cordova-plugin-compat@^1.0.0",
-  "_where": "/Users/mariaschanz/Desktop/ionic-test/freedomchoice/node_modules",
+  "_where": "/Users/mariaschanz/Desktop/ionic-test/freedomchoicetest",
   "author": {
     "name": "Apache Software Foundation"
   },

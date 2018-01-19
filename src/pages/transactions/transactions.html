@@ -6,13 +6,13 @@
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>transactions</ion-title>
+    <ion-title>My Transactions</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="background">
   <ion-list>
     <span *ngIf="transactions === undefined"> There are no transactions available</span>
 
@@ -29,10 +29,27 @@
           <p style="margin-top:0px;color:#000000;">
             Referencenumber = {{option.ref}}
           </p>
+          <div *ngIf="option.cash != 0">
+            <p style="margin-top:0px;color:#000000;" >
+              Payment Mode = Cash
+            </p>
+            <p style="margin-top:0px;color:#000000;"  >
+              Merchant Fees Paid = 0
+            </p>
+          </div>
+          <div *ngIf="option.cash == 0" >
+            <p style="margin-top:0px;color:#000000;" >
+              Payment Mode = Card
+            </p>
+            <p style="margin-top:0px;color:#000000;" >
+              Merchant Fees Paid ={{addPoint(option.convenience_fee)}} 
+            </p>
+          </div>
+
         </div>
       </ion-item>
       <ion-item color="balanced">
-        Value: {{addPoint(option.value)}}$
+        Value: ${{addPoint(option.value)}}
       </ion-item>
     </ion-card>
   </ion-list>

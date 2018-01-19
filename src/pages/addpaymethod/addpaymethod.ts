@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { CardService } from '../../services/card.service';
-import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { Api } from '../../providers/api/api';
 
-import { Storage } from '@ionic/Storage';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 
 @IonicPage()
@@ -19,52 +18,46 @@ export class AddpaymethodPage {
   private iconsrc: string;
   private cardname: string;
   private customerid: string;
-  private months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+  private months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
   private years = ["2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028",
     "2029", "2030", "2031", "2032", "2033", "2034", "2035", "2036", "2037", "2038", "2039", "2040"];
   private card: { cardnumber: string, date: string, check: number };
   private token: string;
 
   constructor(
-    private autService: AuthServiceProvider,
-    public storage: Storage,
+    private platform: Platform,
+    private autService: Api,
+    public storage: NativeStorage,
     public navCtrl: NavController,
-    public navParams: NavParams,
-    private cardService: CardService) {
+    public navParams: NavParams) {
 
     this.cards = [];
 
-    this.storage.get('card5').then((data) => {
-      if (data === null) {
-        this.cards = [];
-      } else {
-        this.cards = data;
-      }
-    });
+
     console.log(this.cards);
     let cardnumber = navParams.get('card');
 
     switch (cardnumber) {
       case 1: {
         this.iconsrc = "assets/img/americanexpress.png";
-        this.cardname = "American Express";
+        this.cardname = "amex";
         break;
       }
       case 2: {
         this.iconsrc = "assets/img/discover.png";
-        this.cardname = "Discover";
+        this.cardname = "disc";
         //statements; 
         break;
       }
       case 3: {
         this.iconsrc = "assets/img/mastercard.png";
-        this.cardname = "Mastercard";
+        this.cardname = "mast";
         //statements; 
         break;
       }
       case 4: {
         this.iconsrc = "assets/img/visa.png";
-        this.cardname = "Visa";
+        this.cardname = "visa";
         //statements; 
         break;
       }
@@ -87,34 +80,33 @@ export class AddpaymethodPage {
     card.icon = this.iconsrc;
     card.cardname = this.cardname;
 
-    await this.cardService.getCards().then((cards) => {
-      this.tokens = cards;
-    });
+    console.log(card.cardnumber);
+
 
     let token = {
       "APIKey": "bDjnJKu7ip7097Vfq46I",
       "TokenExID": "4323829200543105",
-      "Data": card.cardname + "-" +
-      card.cardowner + "-" +
-      card.cardnumber + "-" +
-      card.month.replace(/\s+/g, '') + "-" +
-      card.year.replace(/\s+/g, '') + "-" +
-      card.checkdigit + "-" +
-      card.icon,
-      "TokenScheme": 4
+      "Data": card.cardnumber,
+      "TokenScheme": 1
     };
+
+    let failed:string="none";
 
     await this.autService.tokenize(token, "Tokenize").then((response) => {
       let responses: any;
       console.log(response);
       responses = response;
       if (responses.Success === false) {
-        alert("error");
+        alert("Please enter correct accountnumber");
+        failed="failed";
       } else {
         //alert(responses.Token);
         this.token = responses.Token;
       }
     });
+    if(failed!="failed"){
+
+    
 
     let cardo: {
       cardname: string,
@@ -128,29 +120,39 @@ export class AddpaymethodPage {
       {
         cardname: card.cardname,
         cardowner: card.cardowner,
-        cardnumber: card.cardnumber,
+        cardnumber: this.token,
         month: card.month,
         year: card.year,
         checkdigit: card.checkdigit,
         icon: card.icon
       };
 
-    await this.storage.get('user-id').then((data) => {
-      if (data != null && data != undefined) {
-        this.customerid = data;
-      }
-    });
+    if (!this.platform.is('core')) {
+      await this.storage.getItem('user-id').then((data) => {
+        if (data != null || data != undefined) {
+          this.customerid = data;
+        }
+      });
+    } else {
+      this.customerid = "73";
+    }
 
     let databasecreds = {
-      username: "freedom-pos",
+      username: "freedom-app",
       password: "150498AV",
       reference: "",
       customerid: this.customerid,
-      token: this.token
+      cardtype: card.cardname,
+      nameoncard: card.cardowner,
+      accountnumber: this.token,
+      expiremonth: card.month,
+      expireyear: card.year,
+      cvv: card.checkdigit,
+      icon: card.icon
     };
     console.log(databasecreds);
 
-    let certis: any = await this.autService.serviceTransaction(databasecreds, "?addCard=" + "99");
+    let certis: any = await this.autService.cardService(databasecreds, "?addCard=" + "99");
     console.log(certis.result);
     if (certis.result === "success") {
       this.navCtrl.getPrevious();
@@ -160,6 +162,7 @@ export class AddpaymethodPage {
 
     }
 
+  }
 
   }
 

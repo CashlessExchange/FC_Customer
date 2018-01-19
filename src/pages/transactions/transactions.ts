@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
-import { Storage } from '@ionic/Storage';
-import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { IonicPage, NavController, NavParams, LoadingController, Platform } from 'ionic-angular';
+import { NativeStorage } from '@ionic-native/native-storage';
+import { Api } from '../../providers/api/api';
 
 
 @IonicPage()
@@ -15,11 +15,12 @@ export class TransactionsPage {
   private customerid: string;
 
   constructor(
-    public storage: Storage,
+    private platform:Platform,
+    public storage: NativeStorage,
     public loadingCtrl: LoadingController,
     public navCtrl: NavController,
     public navParams: NavParams,
-    private autService: AuthServiceProvider) {
+    private autService: Api) {
 
     const loading = this.loadingCtrl.create({
       spinner: 'hide',
@@ -39,14 +40,18 @@ export class TransactionsPage {
 
   async laodTransactions() {
 
-    await this.storage.get('user-id').then((data) => {
-      if (data != null && data != undefined) {
-        this.customerid = data;
-      }
-    });
+    if (!this.platform.is('core')) {
+      await this.storage.getItem('user-id').then((data) => {
+        if (data != null || data != undefined) {
+          this.customerid = data;
+        }
+      });
+    } else {
+      this.customerid = "73";
+    }
 
     let databasecreds = {
-      username: "freedom-pos",
+      username: "freedom-app",
       password: "150498AV",
       reference: "",
       customerid: this.customerid,
@@ -79,7 +84,7 @@ export class TransactionsPage {
 
     //let merch: any = await this.autService.serviceTransaction(databasecreds, "?getMerchant=" + "99");
     let merch: any = await this.autService.serviceTransaction(databasecreds, "?getMerchant=" + "99");
-    
+
     console.log(merch);
     return merch;
 

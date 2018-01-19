@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, ToastController } from 'ionic-angular';
 import { CheckoutPage } from '../checkout/checkout';
+import { PricevaluePage } from '../pricevalue/pricevalue';
+import {ChoosepaymethodPage} from '../choosepaymethod/choosepaymethod';
 
 import { AlertController } from 'ionic-angular';
-import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
-import { Storage } from '@ionic/Storage';
+import { Api } from '../../providers/api/api';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 @IonicPage()
 @Component({
@@ -13,9 +15,13 @@ import { Storage } from '@ionic/Storage';
 })
 export class EntercodePage {
 
+  private customerid: string;
+
   constructor(
-    private autService: AuthServiceProvider,
-    private storage: Storage,
+    private platform: Platform,
+    private autService: Api,
+    private storage: NativeStorage,
+    private toastCtrl: ToastController,
     private alertCtrl: AlertController,
     public nav: NavController,
     public navParams: NavParams) {
@@ -23,31 +29,57 @@ export class EntercodePage {
 
 
   async doEnter(value) {
+
+    if (!this.platform.is('core')) {
+      await this.storage.getItem('user-id').then((data) => {
+        if (data != null || data != undefined) {
+          this.customerid = data;
+        }
+      });
+    } else {
+      this.customerid = "75";
+    }
+
     console.log(value);
     let ref = value.code;
-    let databasecreds = {
-      username: "freedom-pos",
+
+    let databasecreds1 =
+    {
+      username: "freedom-app",
       password: "150498AV",
       reference: ref,
-      customerid: 5000
+      customerid: this.customerid
+    };
+    let transaction:any = await this.autService.serviceTransaction(databasecreds1, "?getid=" + ref);
+
+    let databasecreds = {
+      username: "merchantbackuser",
+      password: "150498AV",
+      merchantid: transaction.merchant_id
     };
     console.log(databasecreds);
 
     let datas: any;
-    datas = await this.autService.serviceTransaction(databasecreds, "?getid=" + ref);
+    datas = await this.autService.merchantService(databasecreds, "?getMerchantEnrolled=" + "99");
 
     console.log("test" + datas.id);
-    if (datas.hit == 'failed') {
-      let alert = this.alertCtrl.create({
-        title: 'Error',
-        subTitle: 'This Code is not valid',
-        buttons: ['OK']
+    if (datas.hit === 'failed') {
+      let alert = this.toastCtrl.create({
+        message: 'This Merchant is not participating in our Freedom Choice Service',
+        duration: 3000,
+        position: 'top'
       });
       alert.present();
-      this.nav.popToRoot();
+      //this.nav.popToRoot();
     } else {
-      this.nav.push(CheckoutPage, { ref: ref, data: datas });
+
+
+             this.nav.push(ChoosepaymethodPage, { merchant: transaction.merchant_id, 
+                                              price: transaction.value, 
+                                              ref: ref});
+
     }
   }
+
 
 }

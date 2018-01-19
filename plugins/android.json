@@ -1,58 +1,52 @@
 {
-    "prepare_queue": {
-        "installed": [],
-        "uninstalled": []
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-android-permissions": {
+      "PACKAGE_NAME": "com.freedomchoice.customerApp"
     },
-    "config_munge": {
-        "files": {}
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.freedomchoice.customerApp"
     },
-    "installed_plugins": {
-        "com-badrit-base64": {
-            "PACKAGE_NAME": "de.dveloper.freedomchoice"
-        },
-        "cordova-plugin-add-swift-support": {
-            "PACKAGE_NAME": "de.dveloper.freedomchoice"
-        },
-        "cordova-plugin-admob-free": {
-            "PACKAGE_NAME": "de.dveloper.freedomchoice"
-        },
-        "cordova-plugin-device": {
-            "PACKAGE_NAME": "de.dveloper.freedomchoice"
-        },
-        "cordova-plugin-fingerprint-aio": {
-            "PACKAGE_NAME": "de.dveloper.freedomchoice"
-        },
-        "cordova-plugin-splashscreen": {
-            "PACKAGE_NAME": "de.dveloper.freedomchoice"
-        },
-        "cordova-plugin-statusbar": {
-            "PACKAGE_NAME": "de.dveloper.freedomchoice"
-        },
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "de.dveloper.freedomchoice"
-        },
-        "cordova-sqlite-storage": {
-            "PACKAGE_NAME": "de.dveloper.freedomchoice"
-        },
-        "ionic-plugin-keyboard": {
-            "PACKAGE_NAME": "de.dveloper.freedomchoice"
-        },
-        "phonegap-nfc": {
-            "PACKAGE_NAME": "de.dveloper.freedomchoice"
-        },
-        "phonegap-plugin-barcodescanner": {
-            "PACKAGE_NAME": "de.dveloper.freedomchoice"
-        }
+    "cordova-plugin-fingerprint-aio": {
+      "PACKAGE_NAME": "com.freedomchoice.customerApp"
     },
-    "dependent_plugins": {
-        "cordova-admob-sdk": {
-            "PACKAGE_NAME": "de.dveloper.freedomchoice"
-        },
-        "cordova-promise-polyfill": {
-            "PACKAGE_NAME": "de.dveloper.freedomchoice"
-        },
-        "cordova-plugin-compat": {
-            "PACKAGE_NAME": "de.dveloper.freedomchoice"
-        }
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "com.freedomchoice.customerApp"
+    },
+    "cordova-plugin-ionic-webview": {
+      "PACKAGE_NAME": "com.freedomchoice.customerApp"
+    },
+    "cordova-plugin-nativestorage": {
+      "PACKAGE_NAME": "com.freedomchoice.customerApp"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.freedomchoice.customerApp"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.freedomchoice.customerApp"
+    },
+    "ionic-plugin-keyboard": {
+      "PACKAGE_NAME": "com.freedomchoice.customerApp"
+    },
+    "phonegap-plugin-barcodescanner": {
+      "PACKAGE_NAME": "com.freedomchoice.customerApp"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.freedomchoice.customerApp"
+    },
+    "com-badrit-base64": {
+      "PACKAGE_NAME": "com.freedomchoice.customerApp"
     }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-add-swift-support": {
+      "PACKAGE_NAME": "com.freedomchoice.customerApp"
+    }
+  }
 }

@@ -1,13 +1,13 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>certificate</ion-title>
+    <ion-title>My Certificate</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="background">
   <ion-card>
 
     <ion-item>
@@ -19,27 +19,22 @@
     </ion-item>
 
     <ion-card-content>
-      <ion-list>
-        <ion-item>
+        <p>
           Date: {{date}}
-        </ion-item>
-        <ion-item>
+        </p>
+        <p>
           Your ID: {{customerid}}
-        </ion-item>
-        <ion-item>
+        </p>
+        <p>
           Merchant ID: {{merchantid}}
-        </ion-item>
-        <ion-item>
-          Price: {{price}}$
-        </ion-item>
-      </ion-list>
+        </p>
+        <p>
+           ${{addPoint(price)}}
+        </p>
     </ion-card-content>
 
 
   </ion-card>
   <div id="map" #map></div>
-
-
-
 
 </ion-content>

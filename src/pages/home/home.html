@@ -6,23 +6,22 @@
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>Main Page</ion-title>
+    <ion-title>Home Page</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="background">
 
   <div>
     <img src="assets/img/screenplay.png" style="display:block;width:100%;height:auto;margin-left:auto;margin-right:auto;" />
   </div>
 
   <ion-item color="none">
+      <h2>Your Information</h2>
 
-    <ion-avatar item-left>
-      <img src="assets/img/Hl6uXcJ3RiCg0vQy2nP5_person-flat.png" />
-    </ion-avatar>
+
     <h2>
       {{customer?.data.username}}
     </h2>
@@ -33,9 +32,26 @@
       Your Email: {{customer?.data.email}}
     </h3>
   </ion-item>
+  
+  <ion-item>
+
+      <h2>Marketplace Information</h2>
+
+      <br/>
+      <span> Your Marketplace Points: {{marketpoints}}</span>       
+      
+      <br/>
+        <span *ngIf="marketplaceInfo === false"> There are no Special Discount available</span>
+        <span *ngIf="marketplaceInfo === true"> Special Discount available for {{marketplacediscount}}</span>
+
+    </ion-item>
+    <br/>
+
   <ion-item color="none">
-    Last Certificate:
+      Most Recent Certificates:
   </ion-item>
+
+
   <ion-list>
     <span *ngIf="certs === undefined"> There are no Certificates available</span>
 
@@ -50,12 +66,12 @@
       <h2>
         Merchant: {{option.merchantname}}
       </h2>
-      <p>Value: {{option.value}}$</p>
+      <p>Value: ${{addPoint(option.value)}}</p>
     </ion-card>
   </ion-list>
 
   <ion-item color="none" id="home-list-item20">
-    Latest Transactions:
+    Most Recent Transactions:
   </ion-item>
   <ion-list>
     <span *ngIf="transactions === undefined"> There are no transactions available</span>
@@ -77,7 +93,7 @@
         </div>
       </ion-item>
       <ion-item color="balanced">
-        Value: {{addPoint(option.value)}}$
+        ${{addPoint(option.value)}}
       </ion-item>
     </ion-card>
   </ion-list>

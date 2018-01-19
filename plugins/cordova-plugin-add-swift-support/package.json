@@ -2,58 +2,51 @@
   "_args": [
     [
       {
-        "raw": "https://github.com/akofman/cordova-plugin-add-swift-support.git",
+        "raw": "cordova-plugin-add-swift-support@^1.7.0",
         "scope": null,
-        "escapedName": null,
-        "name": null,
-        "rawSpec": "https://github.com/akofman/cordova-plugin-add-swift-support.git",
-        "spec": "git+https://github.com/akofman/cordova-plugin-add-swift-support.git",
-        "type": "hosted",
-        "hosted": {
-          "type": "github",
-          "ssh": "git@github.com:akofman/cordova-plugin-add-swift-support.git",
-          "sshUrl": "git+ssh://git@github.com/akofman/cordova-plugin-add-swift-support.git",
-          "httpsUrl": "git+https://github.com/akofman/cordova-plugin-add-swift-support.git",
-          "gitUrl": "git://github.com/akofman/cordova-plugin-add-swift-support.git",
-          "shortcut": "github:akofman/cordova-plugin-add-swift-support",
-          "directUrl": "https://raw.githubusercontent.com/akofman/cordova-plugin-add-swift-support/master/package.json"
-        }
+        "escapedName": "cordova-plugin-add-swift-support",
+        "name": "cordova-plugin-add-swift-support",
+        "rawSpec": "^1.7.0",
+        "spec": ">=1.7.0 <2.0.0",
+        "type": "range"
       },
-      "/Users/mariaschanz/Desktop/ionic-test/freedomchoice/node_modules"
+      "/Users/mariaschanz/Desktop/ionic-test/freedomchoicetest"
     ]
   ],
-  "_from": "git+https://github.com/akofman/cordova-plugin-add-swift-support.git",
+  "_from": "cordova-plugin-add-swift-support@>=1.7.0 <2.0.0",
   "_id": "cordova-plugin-add-swift-support@1.7.0",
   "_inCache": true,
   "_location": "/cordova-plugin-add-swift-support",
+  "_nodeVersion": "6.3.0",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/cordova-plugin-add-swift-support-1.7.0.tgz_1499447705628_0.2263350470457226"
+  },
+  "_npmUser": {
+    "name": "alexiskofman",
+    "email": "alexis.kofman@gmail.com"
+  },
+  "_npmVersion": "5.0.3",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "https://github.com/akofman/cordova-plugin-add-swift-support.git",
+    "raw": "cordova-plugin-add-swift-support@^1.7.0",
     "scope": null,
-    "escapedName": null,
-    "name": null,
-    "rawSpec": "https://github.com/akofman/cordova-plugin-add-swift-support.git",
-    "spec": "git+https://github.com/akofman/cordova-plugin-add-swift-support.git",
-    "type": "hosted",
-    "hosted": {
-      "type": "github",
-      "ssh": "git@github.com:akofman/cordova-plugin-add-swift-support.git",
-      "sshUrl": "git+ssh://git@github.com/akofman/cordova-plugin-add-swift-support.git",
-      "httpsUrl": "git+https://github.com/akofman/cordova-plugin-add-swift-support.git",
-      "gitUrl": "git://github.com/akofman/cordova-plugin-add-swift-support.git",
-      "shortcut": "github:akofman/cordova-plugin-add-swift-support",
-      "directUrl": "https://raw.githubusercontent.com/akofman/cordova-plugin-add-swift-support/master/package.json"
-    }
+    "escapedName": "cordova-plugin-add-swift-support",
+    "name": "cordova-plugin-add-swift-support",
+    "rawSpec": "^1.7.0",
+    "spec": ">=1.7.0 <2.0.0",
+    "type": "range"
   },
   "_requiredBy": [
     "#USER",
-    "/"
+    "/",
+    "/cordova-plugin-fingerprint-aio"
   ],
-  "_resolved": "git+https://github.com/akofman/cordova-plugin-add-swift-support.git#f0b9ce4e311e548131ea00ebe261026cd619312e",
-  "_shasum": "e1f57b974be069e32d742d7ec8005d2e9c875d3a",
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-add-swift-support/-/cordova-plugin-add-swift-support-1.7.0.tgz",
+  "_shasum": "ed7dfb62b8ef6d6c79d634920ccb3f1cd8aff77c",
   "_shrinkwrap": null,
-  "_spec": "https://github.com/akofman/cordova-plugin-add-swift-support.git",
-  "_where": "/Users/mariaschanz/Desktop/ionic-test/freedomchoice/node_modules",
+  "_spec": "cordova-plugin-add-swift-support@^1.7.0",
+  "_where": "/Users/mariaschanz/Desktop/ionic-test/freedomchoicetest",
   "author": {
     "name": "Alexis Kofman",
     "email": "alexis.kofman@gmail.com",
@@ -82,7 +75,13 @@
     "webpack": "^2.2.0-rc.3",
     "xcode": "0.9.1"
   },
-  "gitHead": "f0b9ce4e311e548131ea00ebe261026cd619312e",
+  "directories": {},
+  "dist": {
+    "integrity": "sha512-BzCsTaRrX2RP5WT3bPzVa0DQXUq6CCh2hQOmcBuPmwcxFpMiu3HCMrQsMjOE9HOtxTa22nGs49vOZLf9hiWyGQ==",
+    "shasum": "ed7dfb62b8ef6d6c79d634920ccb3f1cd8aff77c",
+    "tarball": "https://registry.npmjs.org/cordova-plugin-add-swift-support/-/cordova-plugin-add-swift-support-1.7.0.tgz"
+  },
+  "gitHead": "dffa622231f5b4ecd7bfa0a1011a0b6ba8b5a88a",
   "homepage": "https://github.com/akofman/cordova-plugin-add-swift-support",
   "keywords": [
     "cordova",
@@ -94,10 +93,15 @@
     "cordova:plugin"
   ],
   "license": "Apache-2.0",
+  "maintainers": [
+    {
+      "name": "alexiskofman",
+      "email": "alexis.kofman@gmail.com"
+    }
+  ],
   "name": "cordova-plugin-add-swift-support",
   "optionalDependencies": {},
-  "readme": "# cordova-plugin-add-swift-support [![Build Status](https://travis-ci.org/akofman/cordova-plugin-add-swift-support.svg?branch=master)](https://travis-ci.org/akofman/cordova-plugin-add-swift-support) [![npm](https://img.shields.io/npm/v/cordova-plugin-add-swift-support.svg?maxAge=2592000)](https://www.npmjs.com/package/cordova-plugin-add-swift-support)\n\n![swift-128x128](https://cloud.githubusercontent.com/assets/579922/15999501/79196b48-3146-11e6-836e-061a7ef53571.png)\n\nThis [Cordova plugin](https://www.npmjs.com/package/cordova-plugin-add-swift-support) adds the Swift support to your iOS project.\n\n## Installation\n\nYou can add this plugin directly to your project:\n\n`cordova plugin add cordova-plugin-add-swift-support --save`\n\nOr add it as a dependency into your own plugin:\n\n`<dependency id=\"cordova-plugin-add-swift-support\" version=\"1.6.1\"/>`\n\nBy default, the Swift 3 support is added but the legacy version (2.3) can still be configured as a preference:\n\n`<preference name=\"UseLegacySwiftLanguageVersion\" value=\"true\" />`\n\nOr it is possible to specify the version as following:\n\n`<preference name=\"UseSwiftLanguageVersion\" value=\"4\" />`\n\nIf needed, add a prefixed Bridging-Header file in your plugin in order to import frameworks (MyPlugin-Bridging-Header.h for instance).\nAs an example you can have a look at this [plugin](https://github.com/akofman/cordova-plugin-permissionScope).\n\nIf the `cordova-plugin-add-swift-support` plugin is already installed to your project, then you can add your own Swift plugin as usual, its prefixed Bridging-Header will be automatically found and merged.\n\n## Contributing\n\nThe src folder contains ECMAScript 2015 source files.\nThis project is built and bundled using [Babel](https://babeljs.io/) and [Webpack](https://webpack.js.org/).\n\n## License\n\nApache-2.0 © [Alexis Kofman](http://twitter.com/alexiskofman)\n",
-  "readmeFilename": "README.md",
+  "readme": "ERROR: No README data found!",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/akofman/cordova-plugin-add-swift-support.git"

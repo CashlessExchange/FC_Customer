@@ -6,7 +6,7 @@
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>checkout
+    <ion-title>Checkout
       <ion-icon name="cart"></ion-icon>
     </ion-title>
   </ion-navbar>
@@ -14,27 +14,13 @@
 </ion-header>
 
 
-<ion-content padding>
-
-  <ion-note item-left> available cards </ion-note>
-
-  <ion-list radio-group [(ngModel)]="selection">
-    <ion-item *ngFor="let option of cardsonpage">
-      <ion-thumbnail item-start>
-        <img [src]="option.icon" style="height: 30%;">
-      </ion-thumbnail>
-      <ion-label>{{option.cardname}}, {{filter(option.cardnumber)}}</ion-label>
-      <ion-radio [value]="option" (click)="selected(option.cardnumber)"></ion-radio>
-    </ion-item>
-  </ion-list>
-
+<ion-content padding class="background">
 
   <div class="spacer" style="width:300px;height:25px;" id="checkout-spacer4"></div>
   <ion-list>
     <h2>Merchant: {{cert.merchantname}}</h2>
-    <p>{{cert.merchantmail}}</p>
-    <p>Merchant-ID: {{items.merchantid}}</p>
-    <ion-note item-left> 3% Fee: {{feeForMerchant}}$</ion-note>
+
+    <ion-note item-left> Fee for Merchant:$ {{feeForMerchant}}</ion-note>
 
     <ion-list>
       <ion-item color="none">
@@ -44,12 +30,14 @@
           </ion-avatar>
         </ion-thumbnail>
         <h2>
-          Item {{items.reference }}
+          Item {{items.name }}
         </h2>
-        <span>Price: {{price}}$</span>
+        <span>Price:$ {{price}}</span>
       </ion-item>
     </ion-list>
   </ion-list>
+
+    
   <div class="spacer" style="width:300px;height:47.9861px;" id="checkout-spacer5"></div>
   <button id="checkout-button4" ion-button color="positive" block style="border-radius:-1px -1px -1px -1px;" (click)="buyAction()">
     Buy
