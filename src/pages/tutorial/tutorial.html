@@ -1,0 +1,30 @@
+<ion-header no-shadow>
+  <ion-navbar>
+    <ion-buttons end *ngIf="showSkip">
+      <button ion-button (click)="skip()" color="primary">{{ 'TUTORIAL_SKIP_BUTTON' | translate}}</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="background">
+  <ion-slides pager="true" dir="{{dir}}" (ionSlideWillChange)="onSlideChangeStart($event)">
+    <ion-slide *ngFor="let slide of slides">
+      <img [src]="slide.image" class="slide-image" />
+      <h2 class="slide-title" [innerHTML]="slide.title"></h2>
+      <p [innerHTML]="slide.description"></p>
+    </ion-slide>
+    <ion-slide>
+      <div style="margin-left:-10px;width:calc(100% + 20px);">
+        <img src="assets/img/screenplay.png" style="display:block;width:100%;height:auto;margin-left:auto;margin-right:auto;" />
+      </div>
+      <h2 class="slide-title">Get started now!</h2>
+      <p>Click Continue… 
+        Register… 
+        and let the Bird do the rest. </p>
+      <button ion-button icon-end large clear (click)="startApp()">
+        Continue
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

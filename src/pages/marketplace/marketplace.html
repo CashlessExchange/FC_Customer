@@ -1,0 +1,78 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Deal</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding class="background">
+
+
+      <ion-card no-lines block>
+        <img [src]="item.deal_image">
+        <ion-card-content>
+          <ion-card-title>
+            {{ item.deal_title }}
+            </ion-card-title>
+            <p>{{item.deal_description}}</p>
+            <p>{{item.deal_terms}}</p>
+
+            <ion-item>
+                <h1 item-end><s>$ {{item.deal_value}}</s></h1>
+              </ion-item>
+              <ion-item >
+                <h2 *ngIf="marketplaceInfo === true" item-end> {{specialDiscount}}%</h2>
+
+              </ion-item>
+              <ion-item>
+                <ion-icon name='pricetag' item-end ></ion-icon>
+                <h1 item-end style="color: #0bdd1d">$ {{paidPrice}}</h1>
+              </ion-item>
+              <br/>
+              <ion-item no-lines>
+                <ion-label color="dark" fixed>Amount</ion-label>        
+            <ion-select  [(ngModel)]="amount" (ionChange)="onChange($event)">
+                <ion-option *ngFor="let f of amounts" value="{{ f }}">{{ f }}</ion-option>
+            </ion-select>
+            </ion-item>
+        
+            <ion-item no-lines>
+                <ion-label color="dark" fixed>Price Total</ion-label>        
+                <ion-input [(ngModel)]="total" ></ion-input>
+            </ion-item>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card *ngIf="merchantloaded === true">
+
+        <ion-item>
+          <ion-avatar item-start>
+            <img [src]="logo">
+          </ion-avatar>
+          <h2>Merchant: {{merchant.name}}</h2>
+          <p>{{merchant.address}}</p>
+        </ion-item>  
+        <a href="#map">View location</a>
+        <br/>
+      </ion-card>
+
+
+
+      <ion-list radio-group [(ngModel)]="selection" >
+      <ion-item *ngFor="let option of cardsonpage">
+          <ion-thumbnail item-start>
+            <img [src]="option.icon" style="height: 30%;">
+          </ion-thumbnail>
+          <ion-label>{{option.cardname}}, {{filter(option.cardnumber)}}</ion-label>
+          <ion-radio [value]="option" (click)="selected(option)"></ion-radio>
+        </ion-item>
+      </ion-list>
+        
+      <button ion-button full (click)="buyItem()">Buy Deal</button>
+      <br/>
+      <div id="map" #map >
+      </div>
+</ion-content>

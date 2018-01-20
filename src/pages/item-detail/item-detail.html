@@ -1,0 +1,26 @@
+<ion-header>
+  
+    <ion-navbar>
+      <ion-title>Merchant Information</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content padding style="background:url(assets/img/Gk12DbJ0TWiNU1PQbjMe_pexels-photo-220444.jpg) no-repeat center;background-size:cover;">
+    <ion-card>
+  
+      <ion-item>
+        <ion-avatar item-start>
+          <img [src]="cert.merchantlogo">
+        </ion-avatar>
+        <h2>Merchant: {{cert.merchantname}}</h2>
+        <p>{{cert.merchantmail}}</p>
+      </ion-item>
+  
+
+  
+    </ion-card>
+    <div id="map" #map></div>
+  
+  </ion-content>

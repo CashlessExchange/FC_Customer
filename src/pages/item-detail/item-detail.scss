@@ -1,0 +1,40 @@
+page-item-detail {
+  .item-profile {
+    width: 100%;
+    background-position: center center;
+    background-size: cover;
+    height: 250px;
+  }
+
+  .item-detail {
+    width: 100%;
+    background: white;
+    position: absolute;
+  }
+
+  #map {
+    height: 80%;
+  }
+
+  .item-md ion-avatar ion-img, .item-md ion-avatar img {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 100px;
+    height: 100px;
+}
+
+.item {
+margin-bottom: 10px;
+background: rgba(0, 0, 0, 0);
+border: medium none;
+border-radius: 5px;
+}
+
+.card {
+    margin-bottom: 10px;
+    background-color: #004858;
+background: rgba(0, 72, 88, 0.356);
+border: medium none;
+border-radius: 5px;
+}
+}

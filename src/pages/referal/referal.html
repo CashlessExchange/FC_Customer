@@ -1,0 +1,32 @@
+<ion-header>
+    
+      <ion-navbar>
+        <ion-title>Referral to a Friend</ion-title>
+      </ion-navbar>
+    
+    </ion-header>
+    
+    
+    
+    <ion-content padding class="background">
+      <div style="margin-left:-10px;width:calc(100% + 20px);">
+          <img src="assets/img/screenplay.png" style="display:block;width:100%;height:auto;margin-left:auto;margin-right:auto;" />
+        </div>
+      <form (submit)="sendRefferal()">
+        <ion-list>
+    
+          <span>Please fill in the Email of your Friend.</span>
+          <ion-item>
+            <ion-label color="dark" floating>{{ 'EMAIL' }}</ion-label>
+            <ion-input required type="email" [(ngModel)]="email" name="email" pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})"></ion-input>
+          </ion-item>
+    
+    
+          <div padding>
+            <button ion-button color="primary" block>{{ 'SUBMIT' }}</button>
+          </div>
+    
+        </ion-list>
+      </form>
+    </ion-content>
+    

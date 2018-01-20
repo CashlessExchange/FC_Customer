@@ -1,0 +1,72 @@
+<ion-header>
+    
+      <ion-navbar>
+        <ion-buttons start>
+          <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+          </button>
+        </ion-buttons>
+        <ion-title>Choose Your Paymethod
+          <ion-icon name="cart"></ion-icon>
+        </ion-title>
+      </ion-navbar>
+    
+    </ion-header>
+    
+    
+    <ion-content padding class="background">
+    
+      <div class="spacer" style="width:300px;height:25px;" id="checkout-spacer4"></div>
+      <ion-list>
+        <h2>Merchant: {{cert.merchantname}}</h2>
+    
+        <ion-note item-left> Fee for Merchant:$ {{feeForMerchant}}</ion-note>
+    
+        <ion-list>
+          <ion-item color="none">
+            <ion-thumbnail item-left>
+              <ion-avatar item-start>
+                <img [src]="cert.merchantlogo">
+              </ion-avatar>
+            </ion-thumbnail>
+            <h2>
+              Item {{items.name }}
+            </h2>
+            <span>Price:$ {{price}}</span>
+          </ion-item>
+        </ion-list>
+      </ion-list>
+    
+      <ion-note item-left> Available Cards </ion-note>
+      
+        <ion-list radio-group [(ngModel)]="selection" *ngIf="showSkip">
+          <ion-item *ngFor="let option of cardsonpage">
+            <ion-thumbnail item-start>
+              <img [src]="option.icon" style="height: 30%;">
+            </ion-thumbnail>
+            <ion-label>{{option.cardname}}, {{filter(option.cardnumber)}}</ion-label>
+            <ion-radio [value]="option" (click)="selected(option)"></ion-radio>
+          </ion-item>
+    
+          <div class="spacer" style="width:300px;height:20px;" id="checkout-spacer5"></div>      
+          <ion-note item-left> Cash/Check Option </ion-note>
+          
+          <ion-item>
+            <ion-thumbnail item-start>
+                <img src="assets/img/cashsymbol.jpg" style="height: 30%;">          
+            </ion-thumbnail>
+            <ion-label>Cash/Check</ion-label>        
+            <ion-radio value="Cash" (click)="selected('cash')"></ion-radio>  
+          </ion-item>
+        </ion-list>
+    
+        
+      <div class="spacer" style="width:300px;height:47.9861px;" id="checkout-spacer5"></div>
+      <button id="checkout-button4" ion-button color="positive" block style="border-radius:-1px -1px -1px -1px;" (click)="buyAction()">
+        Next
+      </button>
+      <button id="checkout-button5" ion-button color="danger" block style="border-radius:1px 1px 1px 1px;" (click)="cancelAction()">
+        Cancel
+      </button>
+    
+    </ion-content>

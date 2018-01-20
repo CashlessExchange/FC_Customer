@@ -1,0 +1,42 @@
+<ion-header>
+    
+      <ion-navbar>
+        <ion-title>Sign Up</ion-title>
+      </ion-navbar>
+    
+    </ion-header>
+    
+    
+    <ion-content padding class="background">
+      <form (submit)="doSignup()">
+        <ion-list>
+    
+          <ion-item>
+            <ion-label fixed>{{ 'EMAIL' }}</ion-label>
+            <ion-input type="email" [(ngModel)]="account.email" name="email" [disabled]="true"></ion-input>
+          </ion-item>
+    
+          <ion-item>
+            <ion-label fixed>{{ 'NAME' }}</ion-label>
+            <ion-input clear type="text" [(ngModel)]="account.name" name="name" [disabled]="true"></ion-input>
+          </ion-item>
+    
+          <ion-item>
+            <ion-label fixed>{{ 'CITY' }}</ion-label>
+            <ion-input clear type="text" [(ngModel)]="account.city" name="city" [disabled]="true"></ion-input>
+          </ion-item>
+    
+    
+          <ion-item>
+            <ion-label fixed>{{ 'PHONE' }}</ion-label>
+            <ion-input clear type="number" [(ngModel)]="account.phone" name="phone" [disabled]="true"></ion-input>
+          </ion-item>
+    
+          <div padding>
+            <button ion-button color="primary" block>{{ 'Sign Up' }}</button>
+          </div>
+    
+    
+        </ion-list>
+      </form>
+    </ion-content>

@@ -1,0 +1,74 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Page Three</ion-title>
+    <ion-buttons end >
+        <button ion-button (click)="skip()" color="primary">SKIP</button>
+      </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding class="background">
+  <form (submit)="nextPage()">
+    <ion-list>
+
+      <ion-item>
+        <ion-label color="dark" floating>
+          Card Type
+        </ion-label>
+        <ion-select name="cardtype" [(ngModel)]="account.cardtype">
+          <ion-option *ngFor="let type of cardtype">
+            {{type}}
+          </ion-option>
+
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label color="dark" floating>Card Owner</ion-label>
+        <ion-input type="text" [(ngModel)]="account.cardowner" name="cardowner"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label color="dark" floating>Card Number</ion-label>
+        <ion-input type="number" [(ngModel)]="account.cardnumber" name="cardnumber"></ion-input>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label color="dark" floating>
+          month
+        </ion-label>
+        <ion-select name="month" [(ngModel)]="account.month">
+          <ion-option *ngFor="let month of months">
+            {{month}}
+          </ion-option>
+
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label color="dark" floating>
+          year
+        </ion-label>
+        <ion-select name="year" [(ngModel)]="account.year">
+          <ion-option *ngFor="let year of years">
+            {{year}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label color="dark" floating>CVV/CVV2</ion-label>
+        <ion-input type="password" [(ngModel)]="account.cvv" name="cvv"></ion-input>
+      </ion-item>
+
+
+      <div padding>
+        <button ion-button color="primary" block>NEXT</button>
+      </div>
+
+
+    </ion-list>
+  </form>
+</ion-content>

@@ -1,0 +1,40 @@
+<ion-header>
+    
+      <ion-navbar>
+        <ion-title>Enter Price
+        </ion-title>
+      </ion-navbar>
+    
+    </ion-header>
+    
+    
+    <ion-content padding style="background:url(assets/img/Gk12DbJ0TWiNU1PQbjMe_pexels-photo-220444.jpg) no-repeat center;background-size:cover;">
+    
+      <form (ngSubmit)="addPrice(f.value)" #f="ngForm">
+        <div style="margin-left:-10px;width:calc(100% + 20px);">
+          <img src="assets/img/screenplay.png" style="display:block;width:100%;height:auto;margin-left:auto;margin-right:auto;" />
+        </div>
+        <ion-label>
+          Enter Price here
+        </ion-label>
+        <ion-list>
+          <ion-item class="text">
+            <ion-label>
+              Price
+            </ion-label>
+            <ion-input type="number" placeholder="" name="price" ngModel required></ion-input>
+          </ion-item>
+          <ion-item class="text">
+              <ion-label>
+                Item Name
+              </ion-label>
+              <ion-input type="text" placeholder="" name="name" ngModel></ion-input>
+            </ion-item>
+        </ion-list>
+        <div class="spacer" style="height:40px;"></div>
+        <button ion-button color="assertive" block>
+          ENTER
+        </button>
+    
+      </form>
+    </ion-content>

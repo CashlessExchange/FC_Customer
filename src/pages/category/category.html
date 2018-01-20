@@ -1,0 +1,63 @@
+<ion-header>
+
+    <ion-navbar>
+      
+      <ion-buttons start>
+        <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+
+      </ion-buttons>
+      <ion-title>Marketplace</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+
+
+<ion-content padding class="background">
+    <ion-item no-lines>
+        <ion-label fixed>City</ion-label>        
+    <ion-select  [(ngModel)]="city" >
+        <ion-option *ngFor="let f of cities" value="{{ f.id }}">{{ f.name }}</ion-option>
+    </ion-select>
+    
+    </ion-item>
+    <ion-item no-line>
+        <ion-label fixed>Category</ion-label>
+        <ion-select  [(ngModel)]="category" >
+            <ion-option *ngFor="let f of categories" value="{{ f.id }}">{{ f.name }}</ion-option>
+        </ion-select>
+    </ion-item>
+    <ion-grid>
+        <ion-row>
+          <ion-col>
+              <button ion-button color="light" (click)="doFilter()">Filter</button>
+          </ion-col>
+          <ion-col col-6>
+            
+          </ion-col>
+          <ion-col>
+              <button ion-button color="danger" (click)="reset()">Reset</button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    <ion-list>
+          <ion-card *ngFor="let item of items" (click)="itemSelected(item)" no-lines block>
+            <img [src]="item.deal_image">
+            <ion-card-content>
+              <ion-card-title>
+                {{ item.deal_title }}
+                </ion-card-title>
+                <p>{{item.deal_description}}</p>
+                <ion-item>
+                    <h1 item-end><s>$ {{item.deal_value}}</s></h1>
+                  </ion-item>
+                  <ion-item>
+                    <ion-icon name='pricetag' item-end ></ion-icon>
+                    <h1 item-end style="color: #0bdd1d">$ {{item.discounted_value}}</h1>
+                  </ion-item>
+            </ion-card-content>
+          </ion-card>
+      </ion-list>
+
+</ion-content>

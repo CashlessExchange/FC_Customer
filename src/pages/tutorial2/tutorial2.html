@@ -1,0 +1,25 @@
+<ion-header>
+  
+    <ion-navbar>
+      <ion-title>Tutorial</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+
+<ion-content padding class="background">
+  <ion-slides pager="true" dir="{{dir}}" (ionSlideWillChange)="onSlideChangeStart($event)">
+    <ion-slide *ngFor="let slide of slides">
+      <img [src]="slide.image" class="slide-image" />
+      <h2 class="slide-title" [innerHTML]="slide.title"></h2>
+      <p [innerHTML]="slide.description"></p>
+    </ion-slide>
+    <ion-slide>
+
+      <h2 class="slide-title">Refer A Friend</h2>
+      <p>If you have elected to be one of our Valued Affiliates, then you can easily refer a friend, family member, or even a business owner to use the Freedom Choice Payment and Rewards Platform. 
+        To sign up a friend, family member, or business owner, all you have to do is select the Give Someone The Bird link, enter their email address, and click send. 
+        It’s too easy. When your referral Accepts the Bird you have given them, then you will get a notification telling you about their Acceptance.  </p>
+
+    </ion-slide>
+  </ion-slides>
+</ion-content>

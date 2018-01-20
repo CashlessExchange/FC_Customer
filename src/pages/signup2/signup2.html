@@ -1,0 +1,37 @@
+<ion-header>
+  
+    <ion-navbar>
+      <ion-title>Page Two</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content padding class="background">
+    <form (submit)="nextPage()">
+      <ion-list>
+  
+  
+        <ion-item>
+          <ion-label color="dark" floating>EMAIL</ion-label>
+          <ion-input required type="email" [(ngModel)]="account.email" name="email" pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})"></ion-input>
+        </ion-item>
+  
+  
+        <ion-item>
+          <ion-label color="dark" floating>PASSWORD</ion-label>
+          <ion-input required type="password" [(ngModel)]="account.password" name="password"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="dark" floating>PASSWORD</ion-label>
+          <ion-input required type="password" [(ngModel)]="passwordConfirm" name="passwordconfirmation"></ion-input>
+        </ion-item>
+  
+        <div padding>
+          <button ion-button color="primary" block>{{ 'NEXT' }}</button>
+        </div>
+  
+      </ion-list>
+    </form>
+  
+  </ion-content>

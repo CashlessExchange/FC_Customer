@@ -1,0 +1,39 @@
+<ion-header>
+  
+    <ion-navbar>
+      <ion-title>Register as Affiliate</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  
+  <ion-content padding class="background">
+    <div style="margin-left:-10px;width:calc(100% + 20px);">
+        <img src="assets/img/screenplay.png" style="display:block;width:100%;height:auto;margin-left:auto;margin-right:auto;" />
+      </div>
+    <form (submit)="register()">
+      <ion-list>
+  
+        <span>Please fill in your Fullname and choose a pasword.</span>
+        <ion-item>
+          <ion-label color="dark" floating>Full Name</ion-label>
+          <ion-input required type="text" [(ngModel)]="name" name="name" ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="dark" floating>PASSWORD</ion-label>
+          <ion-input required type="password" [(ngModel)]="password" name="password"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="dark" floating>PASSWORD</ion-label>
+          <ion-input required type="password" [(ngModel)]="passwordConfirm" name="passwordconfirmation"></ion-input>
+        </ion-item>
+  
+        <div padding>
+          <button ion-button color="primary" block>REGISTER</button>
+        </div>
+  
+      </ion-list>
+    </form>
+  </ion-content>
+  

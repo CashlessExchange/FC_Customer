@@ -1,0 +1,64 @@
+<!--
+  Generated template for the CouponsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Your Coupons</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+
+<ion-content padding class="background">
+    <ion-list>
+  
+      <ion-card *ngFor="let option of coupons.coupons">
+  
+        <ion-item>
+          <div class="show-list-numbers-and-dots">
+            <h1>{{option.deal_title}}</h1>
+            <ion-avatar item-start>
+                <img [src]="option?.deal_image">
+              </ion-avatar>
+            <h1>Coupon Code: </h1>
+
+            <h1>{{option.coupon_code}}</h1>
+            <br/>
+            <p style="margin-top:0px;color:#000000;">
+              Discount = {{option?.offered_discount}}%
+            </p>
+            <p style="margin-top:0px;color:#000000;">
+              Deal Value = {{option?.deal_value}}
+            </p>
+            <p style="margin-top:0px;color:#000000;">
+              Actual Price = {{option?.actual_price}}
+            </p>
+            <p style="margin-top:0px;color:#000000;">
+              Additional Discount = {{option?.additional_discount}}
+            </p>
+            <div *ngIf="option.redemption_status == 1" >
+
+            <p style="margin-top:0px;color:#000000;">
+              Redemption Status - YES
+            </p>
+            </div>
+            <div *ngIf="option.redemption_status == 0" >
+
+              <p style="margin-top:0px;color:#000000;">
+                Redemption Status - No
+              </p>
+              </div>
+
+          </div>
+        </ion-item>
+        <ion-item color="balanced">
+          Paid Price: ${{option?.paid_price}}
+        </ion-item>
+      </ion-card>
+    </ion-list>
+  </ion-content>
