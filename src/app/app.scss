@@ -21,7 +21,92 @@
     font-weight: normal;
     font-style: normal;
   }
-  
+
   * {
-    font-family: 'Sans-serif';
+	font-family: 'Sans-serif' ;
   }
+  .bar-buttons{
+	color: #222 ;
+	font-size: 1.5em;
+	padding: 0px;
+	padding-right: 0.5em;
+	padding-top: 0.3em;
+}
+
+  $list-md-border-color: #222;
+	$item-md-divider-border-bottom:1px solid $list-md-border-color;
+
+  .background{
+		width:100%;
+		// height:100%;
+		background: linear-gradient(10deg,#36D1DC,#147fb2)
+  }
+  
+
+  .head-img {
+		height: 0;
+		position: absolute;
+		h3{
+			font-size: 1.8em;
+		}
+  }
+    
+	.head-bottom {
+		
+			padding: 0px;
+			text-decoration: none;
+			color: white;
+			font-weight: bold;
+			display: inline-block;
+			 
+			border-right: 300vw solid transparent;
+			border-top: 15vw solid whitesmoke ; 
+			
+			height: 0;
+			line-height: 50px;
+			z-index: -1;
+			position: relative;
+  }
+  .toolbar-background {
+		background-color: whitesmoke;
+	}
+	h3{
+		text-align: justify;
+		color: #222;
+
+	}
+	
+	ion-item{
+	h2{
+		padding: 3px;
+		font-size: 1.8rem !important;
+		color: #222;
+	}
+}
+
+ion-card.card{
+	ion-item{
+		p{
+			color : black;
+			font-size: 1.3rem;
+
+		}
+	color : black;	
+	background: whitesmoke;
+	border-radius: 10px;
+	}
+}
+	
+	.header-md::after{
+		position: unset;
+		height: 20px;
+	}
+	
+	ion-navbar{
+		h3{
+		font-size: 	2rem;
+		width: 50
+		}
+	}
+
+  
